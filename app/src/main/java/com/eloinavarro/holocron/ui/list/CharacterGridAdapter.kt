@@ -11,6 +11,13 @@ import com.squareup.picasso.Picasso
 class CharacterGridAdapter(private var items: List<SWCharacter>) :
     RecyclerView.Adapter<CharacterGridAdapter.CharacterViewHolder>() {
 
+    fun addItemsToList(newItems: List<SWCharacter>) {
+        val start = items.size
+        val end = start + newItems.size
+        items = items+newItems
+        notifyItemRangeInserted(start, end)
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CharacterViewHolder {
         val itemBinding =
             CharacterItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)

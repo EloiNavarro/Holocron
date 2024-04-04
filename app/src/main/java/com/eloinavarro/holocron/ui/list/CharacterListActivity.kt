@@ -5,6 +5,7 @@ import android.os.PersistableBundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.eloinavarro.holocron.R
 import com.eloinavarro.holocron.databinding.ActivityMainBinding
 import com.eloinavarro.holocron.domain.SWCharacter
@@ -16,17 +17,24 @@ class CharacterListActivity : AppCompatActivity(R.layout.activity_main),
 
     private lateinit var binding: ActivityMainBinding
 
-    override fun onCreate(savedInstanceState: Bundle?, persistentState: PersistableBundle?) {
-        super.onCreate(savedInstanceState, persistentState)
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+        setupRecycler()
         presenter.setup()
     }
 
-    override fun populateCharacters(swCharacters: List<SWCharacter>) {
-        val layoutManager = GridLayoutManager(this, 2)
+    private fun setupRecycler() {
+        val layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         binding.recycler.layoutManager = layoutManager
-        val adapter =
-            binding.recycler.adapter as CharacterGridAdapter? ?: CharacterGridAdapter(swCharacters)
+        val adapter = CharacterGridAdapter(emptyList())
+        binding.recycler.adapter = adapter
+    }
+
+    override fun populateCharacters(swCharacters: List<SWCharacter>) {
+        val adapter = binding.recycler.adapter as CharacterGridAdapter
+        adapter.addItemsToList(swCharacters)
         binding.recycler.adapter = adapter
         binding.recycler.scheduleLayoutAnimation()
     }

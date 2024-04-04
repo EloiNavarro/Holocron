@@ -32,7 +32,7 @@ class CharacterGridPresenter(private val view: CharacterGridContract.View) :
             .onCancel {
 
             }.onError {
-
+                it.printStackTrace()
             }.execute()
     }
 

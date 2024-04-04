@@ -12,6 +12,6 @@ class SwCharacterRetrofitDatasource constructor(private val mapper: ApiSwCharact
     }
 
     suspend fun getAllCharacters(page: Int, limit: Int): List<SWCharacter> {
-        return getApi().getAllCharacters(page, limit).map { mapper.map(it) }
+        return getApi().getAllCharacters(page, limit).data.map { mapper.map(it) }
     }
 }

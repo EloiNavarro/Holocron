@@ -14,7 +14,9 @@ class GetAllCharacters constructor(private val repository: SWCharacterRepository
             Log.d("DEBUG", "Asking for characters page $page with limit $limit")
             repository.getAllCharacters(page, limit)
         }
-        return result.await()
+        val list = result.await()
+        Log.d("DEBUG", "list.size = ${list.size}")
+        return list
     }
 
     fun page(page: Int): GetAllCharacters {

@@ -10,7 +10,7 @@ interface SWDatabankApi {
     suspend fun getAllCharacters(
         @Query("page") page: Int = 1,
         @Query("limit") limit: Int = 50
-    ): List<ApiSwCharacter>
+    ): SwCharactersResult
 
     @GET("characters/{id}")
     suspend fun getCharacterById(@Path("id") id: Int): ApiSwCharacter
