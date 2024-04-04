@@ -9,7 +9,7 @@ interface CharacterGridContract {
 
     interface Actions {
         fun setup()
-        fun onCharacterTapped(swCharacters: SWCharacter)
+        fun onCharacterTapped(swCharacter: SWCharacter)
         fun endOfPageReached()
     }
 }
