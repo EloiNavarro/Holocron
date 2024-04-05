@@ -8,8 +8,8 @@ import com.eloinavarro.holocron.databinding.CharacterItemBinding
 import com.eloinavarro.holocron.domain.SWCharacter
 import com.squareup.picasso.Picasso
 
-class CharacterGridAdapter(private var items: List<SWCharacter>) :
-    RecyclerView.Adapter<CharacterGridAdapter.CharacterViewHolder>() {
+class SWCharacterAdapter(private var items: List<SWCharacter>, private val onClick: (SWCharacter) -> Unit) :
+    RecyclerView.Adapter<SWCharacterAdapter.CharacterViewHolder>() {
 
     fun addItemsToList(newItems: List<SWCharacter>) {
         val start = items.size
@@ -27,12 +27,15 @@ class CharacterGridAdapter(private var items: List<SWCharacter>) :
     override fun getItemCount(): Int = items.size
 
     override fun onBindViewHolder(holder: CharacterViewHolder, position: Int) {
-        holder.bind(items[position])
+        holder.bind(items[position], onClick)
     }
 
     inner class CharacterViewHolder(private val itemBinding: CharacterItemBinding) :
         RecyclerView.ViewHolder(itemBinding.root) {
-        fun bind(item: SWCharacter) {
+        fun bind(item: SWCharacter, onClick: (SWCharacter) -> Unit) {
+            itemBinding.root.setOnClickListener {
+                onClick(item)
+            }
             with(itemBinding) {
                 txtCharacterName.text = item.name
                 txtCharacterDescription.text = item.description

@@ -10,6 +10,7 @@ class CharacterGridPresenter(private val view: CharacterGridContract.View) :
     CharacterGridContract.Actions {
     private var currentPage = 1
     private var currentLimit = 50
+    private var gotAnyPage = false
     private val getAllCharacters = GetAllCharacters(
         repository = SWCharacterRepository(
             apiDatasource = SwCharacterRetrofitDatasource(
@@ -19,7 +20,9 @@ class CharacterGridPresenter(private val view: CharacterGridContract.View) :
     )
 
     override fun setup() {
-        getCurrentPageOfCharacters()
+        if(!gotAnyPage) {
+            getCurrentPageOfCharacters()
+        }
     }
 
     private fun getCurrentPageOfCharacters() {

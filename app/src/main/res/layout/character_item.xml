@@ -17,6 +17,7 @@
                 android:id="@+id/img_character"
                 android:layout_width="@dimen/height_medium"
                 android:layout_height="@dimen/height_medium"
+              android:scaleType="centerCrop"
                 android:src="@color/black"
                 />
             <androidx.appcompat.widget.LinearLayoutCompat

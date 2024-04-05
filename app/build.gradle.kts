@@ -53,4 +53,5 @@ dependencies {
     implementation(libs.logging.interceptor)
     implementation(libs.picasso)
     implementation(libs.kotlinx.coroutines.android)
+    implementation (libs.androidx.recyclerview)
 }
