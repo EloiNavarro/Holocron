@@ -1,6 +1,6 @@
 package com.eloinavarro.holocron.data.retrofit
 
-import com.squareup.picasso.BuildConfig
+import com.eloinavarro.holocron.BuildConfig
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import okhttp3.logging.HttpLoggingInterceptor.Level

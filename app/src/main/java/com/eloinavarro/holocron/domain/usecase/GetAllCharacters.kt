@@ -11,11 +11,9 @@ class GetAllCharacters constructor(private val repository: SWCharacterRepository
 
     override suspend fun executeOnBackground(): List<SWCharacter> {
         val result = runAsync {
-            Log.d("DEBUG", "Asking for characters page $page with limit $limit")
             repository.getAllCharacters(page, limit)
         }
         val list = result.await()
-        Log.d("DEBUG", "list.size = ${list.size}")
         return list
     }
 

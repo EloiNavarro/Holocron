@@ -8,4 +8,8 @@ class SWCharacterRepository constructor(private val apiDatasource: SwCharacterRe
     suspend fun getAllCharacters(page: Int, limit: Int): List<SWCharacter> {
         return apiDatasource.getAllCharacters(page, limit)
     }
+
+    suspend fun getCharacterById(id: String): SWCharacter {
+        return apiDatasource.getCharacterById(id)
+    }
 }

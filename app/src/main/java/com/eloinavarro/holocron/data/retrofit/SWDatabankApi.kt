@@ -13,5 +13,5 @@ interface SWDatabankApi {
     ): SwCharactersResult
 
     @GET("characters/{id}")
-    suspend fun getCharacterById(@Path("id") id: Int): ApiSwCharacter
+    suspend fun getCharacterById(@Path("id") id: String): ApiSwCharacter
 }
