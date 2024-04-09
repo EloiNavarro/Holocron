@@ -12,7 +12,6 @@ import kotlinx.coroutines.launch
 
 class ListViewModel : ViewModel() {
 
-    private var currentPage = 1
     private var currentLimit = 50
     private val characterRepository = SWCharacterRepository(
         apiDatasource = SwCharacterRetrofitDatasource()
@@ -21,28 +20,59 @@ class ListViewModel : ViewModel() {
     var uiState = MutableStateFlow(UIState())
         private set
 
+    private val paginator = DefaultPaginator (
+        initialKey = uiState.value.page,
+        onLoadUpdated = { isUpdated ->
+            uiState.update { it.copy(loading = isUpdated) }
+        },
+        onRequest = { nextPage ->
+            characterRepository.getAllCharacters(nextPage, currentLimit)
+        },
+        getNextKey = { items ->
+            uiState.value.page + 1
+        },
+        onError = { error ->
+            uiState.update {
+                it.copy(
+                    error = error?.localizedMessage
+                )
+            }
+        },
+        onSuccess = { newItems, newKey ->
+            uiState.update {
+                it.copy(
+                    characters = uiState.value.characters + newItems,
+                    page = newKey,
+                    endReached = newItems.isEmpty()
+                )
+            }
+        }
+    )
+
+    fun loadNextPage() {
+        viewModelScope.launch {
+            paginator.loadNextPage()
+        }
+    }
 
     init {
         viewModelScope.launch {
-            uiState.update { it.copy(loading = true) }
-            uiState.update {
-                it.copy(
-                    characters = characterRepository.getAllCharacters(currentPage, currentLimit),
-                    loading = false
-                )
-            }
+            paginator.loadNextPage()
         }
     }
 
     data class UIState(
-        val loading:Boolean = false,
-        val characters: List<SWCharacter> = emptyList()
+        val loading: Boolean = false,
+        val characters: List<SWCharacter> = emptyList(),
+        val error: String? = null,
+        val endReached: Boolean = false,
+        val page: Int = 1
     )
 }
 
 // Not needed here, just when ListViewModel has parameters
-class ListViewModelFactory: ViewModelProvider.Factory {
-    override fun <T: ViewModel> create(modelClass: Class<T>):T{
+class ListViewModelFactory : ViewModelProvider.Factory {
+    override fun <T : ViewModel> create(modelClass: Class<T>): T {
         return ListViewModel() as T
     }
 }

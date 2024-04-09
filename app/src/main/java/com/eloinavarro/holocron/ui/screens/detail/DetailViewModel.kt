@@ -24,7 +24,7 @@ class DetailViewModel(private val id: String) : ViewModel() {
             uiState.update { it.copy(loading = true) }
             uiState.update {
                 it.copy(
-                    character = characterRepository.getCharacterById(id),
+                    character = characterRepository.getCharacterById(id).getOrNull(),
                     loading = false
                 )
             }

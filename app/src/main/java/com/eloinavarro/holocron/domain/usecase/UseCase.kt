@@ -1,6 +1,5 @@
 package com.eloinavarro.holocron.domain.usecase
 
-import android.util.Log
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Deferred
@@ -23,7 +22,6 @@ abstract class UseCase<T> {
     protected abstract suspend fun executeOnBackground(): T
 
     fun execute() {
-        Log.d("DEBUG", "execute use case")
         unsubscribe()
         parentJob = Job()
         CoroutineScope(foregroundContext + parentJob).async {
