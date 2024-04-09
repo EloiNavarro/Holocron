@@ -1,8 +1,5 @@
 package com.eloinavarro.holocron.ui.screens.list
 
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
@@ -10,8 +7,6 @@ import com.eloinavarro.holocron.data.SWCharacterRepository
 import com.eloinavarro.holocron.data.retrofit.SwCharacterRetrofitDatasource
 import com.eloinavarro.holocron.domain.SWCharacter
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
@@ -23,17 +18,14 @@ class ListViewModel : ViewModel() {
         apiDatasource = SwCharacterRetrofitDatasource()
     )
 
-    private val _uistate = MutableStateFlow(UIState())
-    val uistate: StateFlow<UIState> = _uistate.asStateFlow()
-
-    var state by mutableStateOf(UIState())
+    var uiState = MutableStateFlow(UIState())
         private set
 
 
     init {
         viewModelScope.launch {
-            _uistate.update { it.copy(loading = true) }
-            _uistate.update {
+            uiState.update { it.copy(loading = true) }
+            uiState.update {
                 it.copy(
                     characters = characterRepository.getAllCharacters(currentPage, currentLimit),
                     loading = false

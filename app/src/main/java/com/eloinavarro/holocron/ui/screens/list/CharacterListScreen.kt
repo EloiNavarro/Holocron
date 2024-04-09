@@ -24,7 +24,7 @@ fun CharacterListScreen(
     viewModel: ListViewModel = viewModel(),
     onItemClick:(SWCharacter) -> Unit
 ) {
-    val uiState by viewModel.uistate.collectAsState()
+    val uiState by viewModel.uiState.collectAsState()
     Screen {
         Scaffold(
             topBar = {
