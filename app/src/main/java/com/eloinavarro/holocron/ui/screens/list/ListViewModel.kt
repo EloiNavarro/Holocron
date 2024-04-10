@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.eloinavarro.holocron.data.SWCharacterRepository
 import com.eloinavarro.holocron.data.retrofit.SwCharacterRetrofitDatasource
 import com.eloinavarro.holocron.domain.SWCharacter
+import com.eloinavarro.holocron.ui.common.SwPaginator
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -20,33 +21,39 @@ class ListViewModel : ViewModel() {
     var uiState = MutableStateFlow(UIState())
         private set
 
-    private val paginator = DefaultPaginator (
-        initialKey = uiState.value.page,
-        onLoadUpdated = { isUpdated ->
-            uiState.update { it.copy(loading = isUpdated) }
-        },
-        onRequest = { nextPage ->
-            characterRepository.getAllCharacters(nextPage, currentLimit)
-        },
-        getNextKey = { items ->
-            uiState.value.page + 1
-        },
-        onError = { error ->
-            uiState.update {
-                it.copy(
-                    error = error?.localizedMessage
-                )
-            }
-        },
-        onSuccess = { newItems, newKey ->
-            uiState.update {
-                it.copy(
-                    characters = uiState.value.characters + newItems,
-                    page = newKey,
-                    endReached = newItems.isEmpty()
-                )
-            }
+    private val onLoadUpdated: (Boolean) -> Unit = { isUpdated ->
+        uiState.update { it.copy(loading = isUpdated) }
+    }
+    private val onRequest: suspend (Int) -> Result<List<SWCharacter>> = { nextPage ->
+        characterRepository.getAllCharacters(nextPage, currentLimit)
+    }
+    private val getNextPage: suspend (Int) -> Int = { currentKey ->
+        currentKey + 1
+    }
+    private val onError: suspend (Throwable?) -> Unit = { error ->
+        uiState.update {
+            it.copy(
+                error = error?.localizedMessage
+            )
         }
+    }
+    private val onSuccess: suspend (List<SWCharacter>, Int) -> Unit = { newItems, newKey ->
+        uiState.update {
+            it.copy(
+                characters = uiState.value.characters + newItems,
+                page = newKey,
+                endReached = newItems.isEmpty()
+            )
+        }
+    }
+
+    private val paginator = SwPaginator (
+        initialPage = uiState.value.page,
+        isLoading = onLoadUpdated,
+        onRequest = onRequest,
+        getNextPage = getNextPage,
+        onError = onError,
+        onSuccess = onSuccess
     )
 
     fun loadNextPage() {
