@@ -7,6 +7,7 @@ import com.eloinavarro.holocron.data.SWCharacterRepository
 import com.eloinavarro.holocron.data.retrofit.SwCharacterRetrofitDatasource
 import com.eloinavarro.holocron.domain.SWCharacter
 import com.eloinavarro.holocron.ui.common.SwPaginator
+import com.eloinavarro.holocron.ui.common.sortByNameCaseInsensitive
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -18,11 +19,11 @@ class ListViewModel : ViewModel() {
         apiDatasource = SwCharacterRetrofitDatasource()
     )
 
-    var uiState = MutableStateFlow(UIState())
+    var uiStateFlow = MutableStateFlow(UIState())
         private set
 
     private val onLoadUpdated: (Boolean) -> Unit = { isUpdated ->
-        uiState.update { it.copy(loading = isUpdated) }
+        uiStateFlow.update { it.copy(loading = isUpdated) }
     }
     private val onRequest: suspend (Int) -> Result<List<SWCharacter>> = { nextPage ->
         characterRepository.getAllCharacters(nextPage, currentLimit)
@@ -31,20 +32,16 @@ class ListViewModel : ViewModel() {
         currentKey + 1
     }
     private val onError: suspend (Throwable?) -> Unit = { error ->
-        uiState.update {
+        uiStateFlow.update {
             it.copy(
                 error = error?.localizedMessage
             )
         }
     }
     private val onSuccess: suspend (List<SWCharacter>, Int) -> Unit = { newItems, newKey ->
-        uiState.update {
+        uiStateFlow.update {
             it.copy(
-                characters = (uiState.value.characters + newItems).sortedWith(
-                    compareBy(
-                        String.CASE_INSENSITIVE_ORDER
-                    ) { character -> character.name }
-                ),
+                characters = (uiStateFlow.value.characters + newItems).sortByNameCaseInsensitive(),
                 page = newKey,
                 endReached = newItems.isEmpty()
             )
@@ -52,7 +49,7 @@ class ListViewModel : ViewModel() {
     }
 
     private val paginator = SwPaginator(
-        initialPage = uiState.value.page,
+        initialPage = uiStateFlow.value.page,
         isLoading = onLoadUpdated,
         onRequest = onRequest,
         getNextPage = getNextPage,

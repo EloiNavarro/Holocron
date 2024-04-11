@@ -1,6 +1,5 @@
 package com.eloinavarro.holocron.ui.screens.list
 
-import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -30,7 +29,7 @@ fun CharacterListScreen(
     viewModel: ListViewModel = viewModel(),
     onItemClick: (SWCharacter) -> Unit
 ) {
-    val uiState by viewModel.uiState.collectAsState()
+    val uiState by viewModel.uiStateFlow.collectAsState()
     Screen {
         Scaffold(
             topBar = {
@@ -55,7 +54,11 @@ fun CharacterListScreen(
                         item = uiState.characters[i],
                         onClick = { onItemClick(uiState.characters[i]) })
                 }
-                item (span = { GridItemSpan(2) }) {
+                item (
+                    span = {
+                        GridItemSpan(2)
+                    }
+                ) {
                     if (uiState.loading) {
                         Row(
                             modifier = Modifier

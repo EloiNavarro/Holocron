@@ -2,7 +2,7 @@ package com.eloinavarro.holocron.data.retrofit
 
 import com.eloinavarro.holocron.domain.SWCharacter
 
-class SwCharacterRetrofitDatasource constructor() :
+class SwCharacterRetrofitDatasource :
     RetrofitDatasource<ApiSwCharacter, SWCharacter>() {
 
     private val url = "https://starwars-databank-server.vercel.app/api/v1/"
