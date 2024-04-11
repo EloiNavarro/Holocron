@@ -36,7 +36,7 @@ fun CharacterDetailScreen(
             }
         ) { padding ->
             Column(modifier = Modifier.padding(padding)) {
-                SwCharacterItem(item = uiState.character, onClick = { })
+                CharacterDetail(item = uiState.character)
             }
         }
     }

@@ -1,11 +1,13 @@
 package com.eloinavarro.holocron.ui.screens.list
 
+import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.GridItemSpan
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
@@ -20,14 +22,13 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.eloinavarro.holocron.R
 import com.eloinavarro.holocron.domain.SWCharacter
-import com.eloinavarro.holocron.ui.common.ArrowBackIcon
 import com.eloinavarro.holocron.ui.common.Screen
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CharacterListScreen(
     viewModel: ListViewModel = viewModel(),
-    onItemClick:(SWCharacter) -> Unit
+    onItemClick: (SWCharacter) -> Unit
 ) {
     val uiState by viewModel.uiState.collectAsState()
     Screen {
@@ -35,25 +36,31 @@ fun CharacterListScreen(
             topBar = {
                 TopAppBar(
                     title = { Text(text = stringResource(R.string.app_name)) },
-                    navigationIcon = {
-                        ArrowBackIcon {}
-                    }
+                    navigationIcon = {}
                 )
             }
         ) { padding ->
-            LazyColumn(modifier = Modifier.padding(padding)) {
-                items(uiState.characters) { item ->
-                    if(uiState.characters.last() == item
+            LazyVerticalGrid(
+                columns = GridCells.Adaptive(180.dp),
+                contentPadding = padding
+            ) {
+                items(uiState.characters.size) { i ->
+                    if (i >= uiState.characters.size - 1
                         && !uiState.endReached
-                        && !uiState.loading) {
+                        && !uiState.loading
+                    ) {
                         viewModel.loadNextPage()
                     }
-                    SwCharacterItem(item = item, onClick = { onItemClick(item) })
+                    SwCharacterItem(
+                        item = uiState.characters[i],
+                        onClick = { onItemClick(uiState.characters[i]) })
                 }
-                item {
-                    if(uiState.loading) {
+                item (span = { GridItemSpan(2) }) {
+                    if (uiState.loading) {
                         Row(
-                            modifier = Modifier.fillMaxWidth().padding(16.dp),
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(16.dp),
                             horizontalArrangement = Arrangement.Center
                         ) {
                             CircularProgressIndicator()

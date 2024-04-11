@@ -40,14 +40,18 @@ class ListViewModel : ViewModel() {
     private val onSuccess: suspend (List<SWCharacter>, Int) -> Unit = { newItems, newKey ->
         uiState.update {
             it.copy(
-                characters = uiState.value.characters + newItems,
+                characters = (uiState.value.characters + newItems).sortedWith(
+                    compareBy(
+                        String.CASE_INSENSITIVE_ORDER
+                    ) { character -> character.name }
+                ),
                 page = newKey,
                 endReached = newItems.isEmpty()
             )
         }
     }
 
-    private val paginator = SwPaginator (
+    private val paginator = SwPaginator(
         initialPage = uiState.value.page,
         isLoading = onLoadUpdated,
         onRequest = onRequest,

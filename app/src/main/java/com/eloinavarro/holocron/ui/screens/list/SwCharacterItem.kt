@@ -2,6 +2,7 @@ package com.eloinavarro.holocron.ui.screens.list
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -40,7 +41,7 @@ fun SwCharacterItem(
                 contentDescription = "Portrait image of ${item?.name}",
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(200.dp)
+                    .aspectRatio(1f)
                     .clip(MaterialTheme.shapes.medium)
             )
             Column(
@@ -49,13 +50,7 @@ fun SwCharacterItem(
             ){
                 Text(
                     text = item?.name ?: "",
-                    style = MaterialTheme.typography.headlineSmall
-                )
-                Text(
-                    text = item?.description ?: "",
-                    style = MaterialTheme.typography.bodyMedium,
-                    maxLines = 3,
-                    overflow = TextOverflow.Ellipsis
+                    style = MaterialTheme.typography.labelLarge
                 )
             }
         }
