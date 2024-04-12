@@ -51,7 +51,8 @@ fun SwapiCharacter.toDomainModel(): SWCharacter {
         links = films.map { SwLink(it, SwLinkType.MOVIE) } +
                 species.map { SwLink(it, SwLinkType.SPECIE) } +
                 vehicles.map { SwLink(it, SwLinkType.VEHICLE) } +
-                starships.map { SwLink(it, SwLinkType.STARSHIP) }
+                starships.map { SwLink(it, SwLinkType.STARSHIP) },
+        url = url
     )
 }
 

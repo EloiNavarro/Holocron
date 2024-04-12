@@ -7,7 +7,8 @@ data class SWCharacter(
     val image: String,
     val bornDate: String,
     val appearance: SwCharacterAppearance,
-    val links:List<SwLink>
+    val links:List<SwLink>,
+    val url: String
 )
 
 enum class SwLinkType {
