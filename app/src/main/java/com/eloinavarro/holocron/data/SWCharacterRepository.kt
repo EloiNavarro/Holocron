@@ -5,8 +5,8 @@ import com.eloinavarro.holocron.domain.SWCharacter
 
 class SWCharacterRepository constructor(private val apiDatasource: SwCharacterRetrofitDatasource) {
 
-    suspend fun getAllCharacters(page: Int, limit: Int): Result<List<SWCharacter>> {
-        return apiDatasource.getAllCharacters(page, limit)
+    suspend fun getAllCharacters(page: Int): Result<List<SWCharacter>> {
+        return apiDatasource.getAllCharacters(page)
     }
 
     suspend fun getCharacterById(id: String): Result<SWCharacter> {

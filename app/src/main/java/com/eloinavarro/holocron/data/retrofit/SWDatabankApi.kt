@@ -7,12 +7,11 @@ import retrofit2.http.Query
 
 interface SWDatabankApi {
 
-    @GET("characters")
+    @GET("people")
     suspend fun getAllCharacters(
-        @Query("page") page: Int = 1,
-        @Query("limit") limit: Int = 50
-    ): Response<SwCharactersResult>
+        @Query("page") page: Int = 1
+    ): Response<SwapiResponse>
 
-    @GET("characters/{id}")
-    suspend fun getCharacterById(@Path("id") id: String): Response<ApiSwCharacter>
+    @GET("people/{id}")
+    suspend fun getCharacterById(@Path("id") id: String): Response<SwapiCharacter>
 }

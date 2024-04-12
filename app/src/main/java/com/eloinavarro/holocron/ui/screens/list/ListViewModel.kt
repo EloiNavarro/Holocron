@@ -14,7 +14,6 @@ import kotlinx.coroutines.launch
 
 class ListViewModel : ViewModel() {
 
-    private var currentLimit = 50
     private val characterRepository = SWCharacterRepository(
         apiDatasource = SwCharacterRetrofitDatasource()
     )
@@ -26,7 +25,7 @@ class ListViewModel : ViewModel() {
         uiStateFlow.update { it.copy(loading = isUpdated) }
     }
     private val onRequest: suspend (Int) -> Result<List<SWCharacter>> = { nextPage ->
-        characterRepository.getAllCharacters(nextPage, currentLimit)
+        characterRepository.getAllCharacters(nextPage)
     }
     private val getNextPage: suspend (Int) -> Int = { currentKey ->
         currentKey + 1
@@ -41,7 +40,7 @@ class ListViewModel : ViewModel() {
     private val onSuccess: suspend (List<SWCharacter>, Int) -> Unit = { newItems, newKey ->
         uiStateFlow.update {
             it.copy(
-                characters = (uiStateFlow.value.characters + newItems).sortByNameCaseInsensitive(),
+                characters = (uiStateFlow.value.characters + newItems),
                 page = newKey,
                 endReached = newItems.isEmpty()
             )
