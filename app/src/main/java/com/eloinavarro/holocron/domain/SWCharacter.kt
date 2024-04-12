@@ -6,9 +6,13 @@ data class SWCharacter(
     val description: String,
     val image: String,
     val bornDate: String,
-    val colors: SWCharacterColors,
-    val height: String,
-    val mass: String
+    val appearance: SwCharacterAppearance,
+    val links:List<SwLink>
 )
 
+enum class SwLinkType {
+    MOVIE, SPECIE, VEHICLE, STARSHIP
+}
+data class SwLink(val url: String, val type: SwLinkType)
+data class SwCharacterAppearance(val height: Float?, val weight: Int?, val colors: SWCharacterColors)
 data class SWCharacterColors(val eyes: String, val hair: String, val skin: String)

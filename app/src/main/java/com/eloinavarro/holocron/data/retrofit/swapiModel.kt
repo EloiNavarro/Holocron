@@ -3,6 +3,9 @@ package com.eloinavarro.holocron.data.retrofit
 import android.util.Log
 import com.eloinavarro.holocron.domain.SWCharacter
 import com.eloinavarro.holocron.domain.SWCharacterColors
+import com.eloinavarro.holocron.domain.SwCharacterAppearance
+import com.eloinavarro.holocron.domain.SwLink
+import com.eloinavarro.holocron.domain.SwLinkType
 import java.net.URLEncoder
 
 data class SwapiResponse(
@@ -34,16 +37,21 @@ data class SwapiCharacter(
 fun SwapiCharacter.toDomainModel(): SWCharacter {
     val id = url.substringBeforeLast("/", "").substringAfterLast("/")
     val encodedName = URLEncoder.encode(name,"UTF-8")
-    Log.d("DEBUG", "url = https://via.placeholder.com/500x500/${randomColor(id.toInt())}/FFFFFF?text=$encodedName")
     return SWCharacter(
         id = id,
         name = name,
         description = "",
         image = "https://via.placeholder.com/500x500/${randomColor(id.toInt())}/FFFFFF?text=$encodedName",
         bornDate = birth_year,
-        colors = SWCharacterColors(eye_color, hair_color, skin_color),
-        height = height,
-        mass = mass
+        appearance = SwCharacterAppearance(
+            height = height.toFloatOrNull()?.div(100),
+            weight = mass.toIntOrNull(),
+            colors = SWCharacterColors(eye_color, hair_color, skin_color)
+        ),
+        links = films.map { SwLink(it, SwLinkType.MOVIE) } +
+                species.map { SwLink(it, SwLinkType.SPECIE) } +
+                vehicles.map { SwLink(it, SwLinkType.VEHICLE) } +
+                starships.map { SwLink(it, SwLinkType.STARSHIP) }
     )
 }
 

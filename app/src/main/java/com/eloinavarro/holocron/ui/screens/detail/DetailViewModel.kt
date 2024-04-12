@@ -16,13 +16,13 @@ class DetailViewModel(private val id: String) : ViewModel() {
         apiDatasource = SwCharacterRetrofitDatasource()
     )
 
-    var uiState = MutableStateFlow(UIState())
+    var uiStateFlow = MutableStateFlow(UIState())
         private set
 
     init {
         viewModelScope.launch {
-            uiState.update { it.copy(loading = true) }
-            uiState.update {
+            uiStateFlow.update { it.copy(loading = true) }
+            uiStateFlow.update {
                 it.copy(
                     character = characterRepository.getCharacterById(id).getOrNull(),
                     loading = false
