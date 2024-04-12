@@ -2,6 +2,8 @@
 plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsKotlin)
+    alias(libs.plugins.kotlinKapt)
+    alias(libs.plugins.ksp)
 }
 
 android {
@@ -51,24 +53,42 @@ dependencies {
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
-    implementation(libs.androidx.material.icons.extended)
-    implementation(libs.androidx.navigation.compose)
-    implementation(libs.androidx.lifecycle.viewmodel.compose)
-    implementation(libs.androidx.lifecycle.runtime.compose)
-    implementation(libs.coil.compose)
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.compose.ui)
-    implementation(libs.androidx.compose.ui.graphics)
     implementation(libs.androidx.compose.ui.tooling)
     implementation(libs.androidx.compose.material3)
+    implementation(libs.androidx.compose.ui.graphics)
+    implementation(libs.androidx.navigation.compose)
 
-    implementation(libs.appcompat)
-    implementation(libs.material)
+    // Coil
+    implementation(libs.coil.compose)
+
+    implementation(libs.androidx.lifecycle.runtime.compose)
+    implementation(libs.androidx.lifecycle.viewmodel.compose)
+
+    // Dagger-hilt
+    implementation(libs.hilt.android)
+    kapt(libs.hilt.android.compiler)
+    kapt(libs.androidx.hilt.compiler)
+    implementation(libs.androidx.hilt.navigation.compose)
+
+    // Paging ?
+
+    // Retrofit
     implementation(libs.retrofit)
     implementation(libs.converter.gson)
     implementation(libs.logging.interceptor)
+
+    // Room
+    implementation(libs.androidx.room.ktx)
+    ksp(libs.androidx.room.compiler)
+    implementation(libs.androidx.room.paging)
+
+    implementation(libs.androidx.material.icons.extended)
+
+    implementation(libs.appcompat)
+    implementation(libs.material)
     implementation(libs.kotlinx.coroutines.android)
-    implementation (libs.androidx.recyclerview)
     implementation(libs.androidx.fragment.ktx)
 
     testImplementation(libs.junit)
