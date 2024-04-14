@@ -1,6 +1,6 @@
 package com.eloinavarro.holocron.domain.usecase
 
-import com.eloinavarro.holocron.data.SWStarshipRepository
+import com.eloinavarro.holocron.data.repositories.SWStarshipRepository
 import com.eloinavarro.holocron.domain.SWStarship
 
 class GetStarshipByIdUseCase(private val repository: SWStarshipRepository) {

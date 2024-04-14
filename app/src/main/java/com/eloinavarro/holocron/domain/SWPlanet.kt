@@ -1,8 +1,8 @@
 package com.eloinavarro.holocron.domain
 
 data class SWPlanet(
-    val id: Int,
-    val name: String,
+    override val id: Int,
+    override val name: String,
     val image: String,
     val diameter: Int,
     val climate: String,
@@ -12,7 +12,7 @@ data class SWPlanet(
     val hoursForDay: Int, //rotation_period
     val daysForYear: Int, //orbital_period
     val population: Int,
-    val links:List<SwLink>,
-    val url: String,
-    val isFavorite: Boolean
-)
+    override val links:List<SwLink>,
+    override val url: String,
+    override val isFavorite: Boolean
+):SWItem

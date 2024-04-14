@@ -3,7 +3,7 @@ package com.eloinavarro.holocron.ui.screens.detail
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
-import com.eloinavarro.holocron.data.SWCharacterRepository
+import com.eloinavarro.holocron.data.repositories.SWCharacterRepository
 import com.eloinavarro.holocron.data.retrofit.SwapiRetrofitDatasource
 import com.eloinavarro.holocron.domain.SWCharacter
 import com.eloinavarro.holocron.domain.usecase.GetCharacterByIdUseCase

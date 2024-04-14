@@ -1,6 +1,6 @@
 package com.eloinavarro.holocron.domain.usecase
 
-import com.eloinavarro.holocron.data.SWPlanetRepository
+import com.eloinavarro.holocron.data.repositories.SWPlanetRepository
 import com.eloinavarro.holocron.domain.SWPlanet
 
 class GetPlanetByIdUseCase(private val repository: SWPlanetRepository) {

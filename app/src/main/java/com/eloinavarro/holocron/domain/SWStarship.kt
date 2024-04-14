@@ -1,8 +1,8 @@
 package com.eloinavarro.holocron.domain
 
 data class SWStarship(
-    val id: Int,
-    val name: String,
+    override val id: Int,
+    override val name: String,
     val model: String,
     val starshipClass: String,
     val manufacturer: String,
@@ -15,6 +15,7 @@ data class SWStarship(
     val megalights: String,
     val cargoSize: Int,
     val consumables: String,
-    val links: List<SwLink>,
-    val url: String
-)
+    override val links: List<SwLink>,
+    override val url: String,
+    override val isFavorite: Boolean
+):SWItem

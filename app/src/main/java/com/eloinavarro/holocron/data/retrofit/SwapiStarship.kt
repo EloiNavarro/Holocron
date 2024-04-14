@@ -44,6 +44,7 @@ fun SwapiStarship.toDomainModel(): SWStarship {
         consumables = consumables,
         links = films.map { SwLink(it, SwLinkType.MOVIE) } +
                 pilots.map { SwLink(it, SwLinkType.CHARACTER) },
-        url = url
+        url = url,
+        isFavorite = false
     )
 }
