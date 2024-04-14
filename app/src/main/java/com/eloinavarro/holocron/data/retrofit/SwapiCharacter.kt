@@ -1,19 +1,11 @@
 package com.eloinavarro.holocron.data.retrofit
 
-import android.util.Log
 import com.eloinavarro.holocron.domain.SWCharacter
 import com.eloinavarro.holocron.domain.SWCharacterColors
 import com.eloinavarro.holocron.domain.SwCharacterAppearance
 import com.eloinavarro.holocron.domain.SwLink
 import com.eloinavarro.holocron.domain.SwLinkType
 import java.net.URLEncoder
-
-data class SwapiResponse(
-    val count: Int,
-    val next: String,
-    val previous: Any,
-    val results: List<SwapiCharacter>
-)
 
 data class SwapiCharacter(
     val birth_year: String,

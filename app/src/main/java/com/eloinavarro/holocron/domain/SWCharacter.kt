@@ -13,7 +13,7 @@ data class SWCharacter(
 )
 
 enum class SwLinkType {
-    MOVIE, SPECIE, VEHICLE, STARSHIP
+    MOVIE, SPECIE, VEHICLE, STARSHIP, CHARACTER
 }
 data class SwLink(val url: String, val type: SwLinkType)
 data class SwCharacterAppearance(val height: Float?, val weight: Int?, val colors: SWCharacterColors)

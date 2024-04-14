@@ -1,9 +1,9 @@
 package com.eloinavarro.holocron.data
 
-import com.eloinavarro.holocron.data.retrofit.SwCharacterRetrofitDatasource
+import com.eloinavarro.holocron.data.retrofit.SwapiRetrofitDatasource
 import com.eloinavarro.holocron.domain.SWCharacter
 
-class SWCharacterRepository constructor(private val apiDatasource: SwCharacterRetrofitDatasource) {
+class SWCharacterRepository constructor(private val apiDatasource: SwapiRetrofitDatasource) {
 
     suspend fun getAllCharacters(page: Int): Result<List<SWCharacter>> {
         return apiDatasource.getAllCharacters(page)

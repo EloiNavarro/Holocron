@@ -4,10 +4,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.eloinavarro.holocron.data.SWCharacterRepository
-import com.eloinavarro.holocron.data.retrofit.SwCharacterRetrofitDatasource
+import com.eloinavarro.holocron.data.retrofit.SwapiRetrofitDatasource
 import com.eloinavarro.holocron.domain.SWCharacter
 import com.eloinavarro.holocron.ui.common.SwPaginator
-import com.eloinavarro.holocron.ui.common.sortByNameCaseInsensitive
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -15,7 +14,7 @@ import kotlinx.coroutines.launch
 class ListViewModel : ViewModel() {
 
     private val characterRepository = SWCharacterRepository(
-        apiDatasource = SwCharacterRetrofitDatasource()
+        apiDatasource = SwapiRetrofitDatasource()
     )
 
     var uiStateFlow = MutableStateFlow(UIState())
