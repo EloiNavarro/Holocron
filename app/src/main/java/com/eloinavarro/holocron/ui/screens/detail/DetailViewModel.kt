@@ -6,14 +6,18 @@ import androidx.lifecycle.viewModelScope
 import com.eloinavarro.holocron.data.SWCharacterRepository
 import com.eloinavarro.holocron.data.retrofit.SwapiRetrofitDatasource
 import com.eloinavarro.holocron.domain.SWCharacter
+import com.eloinavarro.holocron.domain.usecase.GetCharacterByIdUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class DetailViewModel(private val id: Int) : ViewModel() {
 
-    private val characterRepository = SWCharacterRepository(
-        apiDatasource = SwapiRetrofitDatasource()
+    //TODO: Add Hilt and change this
+    private val getCharacterByIdUseCase = GetCharacterByIdUseCase(
+        repository = SWCharacterRepository(
+            apiDatasource = SwapiRetrofitDatasource()
+        )
     )
 
     var uiStateFlow = MutableStateFlow(UIState())
@@ -24,7 +28,7 @@ class DetailViewModel(private val id: Int) : ViewModel() {
             uiStateFlow.update { it.copy(loading = true) }
             uiStateFlow.update {
                 it.copy(
-                    character = characterRepository.getCharacterById(id).getOrNull(),
+                    character = getCharacterByIdUseCase(id).getOrNull(),
                     loading = false
                 )
             }

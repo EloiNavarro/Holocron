@@ -2,6 +2,7 @@ package com.eloinavarro.holocron.data.retrofit
 
 import com.eloinavarro.holocron.domain.SWCharacter
 import com.eloinavarro.holocron.domain.SWPlanet
+import com.eloinavarro.holocron.domain.SWStarship
 
 class SwapiRetrofitDatasource {
 
@@ -44,6 +45,24 @@ class SwapiRetrofitDatasource {
             Result.success(response.body()!!.toDomainModel())
         } else {
             Result.failure(Exception("Error getPlanetById($id)"))
+        }
+    }
+
+    suspend fun getAllStarships(page: Int): Result<List<SWStarship>> {
+        val response = getApi().getAllStarships(page)
+        return if(response.isSuccessful && response.body() != null) {
+            Result.success(response.body()!!.results.map { it.toDomainModel() })
+        } else {
+            Result.failure(Exception("Error getAllStarships"))
+        }
+    }
+
+    suspend fun getStarshipById(id: Int):Result<SWStarship> {
+        val response = getApi().getStarshipById(id)
+        return if(response.isSuccessful && response.body() != null) {
+            Result.success(response.body()!!.toDomainModel())
+        } else {
+            Result.failure(Exception("Error getStarshipById($id)"))
         }
     }
 }

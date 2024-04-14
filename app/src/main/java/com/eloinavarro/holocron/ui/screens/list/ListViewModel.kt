@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.eloinavarro.holocron.data.SWCharacterRepository
 import com.eloinavarro.holocron.data.retrofit.SwapiRetrofitDatasource
 import com.eloinavarro.holocron.domain.SWCharacter
+import com.eloinavarro.holocron.domain.usecase.GetCharactersUseCase
 import com.eloinavarro.holocron.ui.common.SwPaginator
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.update
@@ -13,8 +14,11 @@ import kotlinx.coroutines.launch
 
 class ListViewModel : ViewModel() {
 
-    private val characterRepository = SWCharacterRepository(
-        apiDatasource = SwapiRetrofitDatasource()
+    //TODO: Add Hilt and change this
+    private val getCharacters = GetCharactersUseCase(
+        repository = SWCharacterRepository(
+            apiDatasource = SwapiRetrofitDatasource()
+        )
     )
 
     var uiStateFlow = MutableStateFlow(UIState())
@@ -24,7 +28,7 @@ class ListViewModel : ViewModel() {
         uiStateFlow.update { it.copy(loading = isUpdated) }
     }
     private val onRequest: suspend (Int) -> Result<List<SWCharacter>> = { nextPage ->
-        characterRepository.getAllCharacters(nextPage)
+        getCharacters(nextPage)
     }
     private val getNextPage: suspend (Int) -> Int = { currentKey ->
         currentKey + 1

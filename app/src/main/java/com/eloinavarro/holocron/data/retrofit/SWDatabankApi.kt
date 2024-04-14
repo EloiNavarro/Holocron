@@ -50,8 +50,8 @@ interface SWDatabankApi {
     @GET("starships")
     suspend fun getAllStarships(
         @Query("page") page: Int = 1
-    ): Response<SwapiResponse<SwapiCharacter>>
+    ): Response<SwapiResponse<SwapiStarship>>
 
     @GET("starships/{id}")
-    suspend fun getStarshipById(@Path("id") id: Int): Response<SwapiPlanet>
+    suspend fun getStarshipById(@Path("id") id: Int): Response<SwapiStarship>
 }
