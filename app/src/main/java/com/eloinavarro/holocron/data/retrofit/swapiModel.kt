@@ -38,7 +38,7 @@ fun SwapiCharacter.toDomainModel(): SWCharacter {
     val id = url.substringBeforeLast("/", "").substringAfterLast("/")
     val encodedName = URLEncoder.encode(name,"UTF-8")
     return SWCharacter(
-        id = id,
+        id = id.toInt(),
         name = name,
         description = "",
         image = "https://via.placeholder.com/500x500/${randomColor(id.toInt())}/FFFFFF?text=$encodedName",
@@ -52,7 +52,8 @@ fun SwapiCharacter.toDomainModel(): SWCharacter {
                 species.map { SwLink(it, SwLinkType.SPECIE) } +
                 vehicles.map { SwLink(it, SwLinkType.VEHICLE) } +
                 starships.map { SwLink(it, SwLinkType.STARSHIP) },
-        url = url
+        url = url,
+        isFavorite = false
     )
 }
 

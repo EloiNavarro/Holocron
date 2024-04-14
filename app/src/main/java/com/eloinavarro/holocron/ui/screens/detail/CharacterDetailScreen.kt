@@ -13,7 +13,7 @@ import com.eloinavarro.holocron.ui.screens.list.CharacterDetailScaffold
 
 @Composable
 fun CharacterDetailScreen(
-    id: String,
+    id: Int,
     onUpClick: () -> Unit
 ) {
     val viewModel: DetailViewModel = viewModel(factory = DetailViewModelFactory(id = id))

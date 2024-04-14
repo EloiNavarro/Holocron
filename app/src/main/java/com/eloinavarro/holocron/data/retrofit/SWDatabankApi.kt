@@ -13,5 +13,5 @@ interface SWDatabankApi {
     ): Response<SwapiResponse>
 
     @GET("people/{id}")
-    suspend fun getCharacterById(@Path("id") id: String): Response<SwapiCharacter>
+    suspend fun getCharacterById(@Path("id") id: Int): Response<SwapiCharacter>
 }

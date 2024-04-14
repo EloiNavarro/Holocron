@@ -17,6 +17,7 @@ import com.eloinavarro.holocron.domain.SwLink
 
 @Composable
 fun CharacterOverflowMenu(links: List<SwLink>) {
+    if(links.isEmpty()) { return }
     var showMenu by remember { mutableStateOf(false) }
     val uriHandler = LocalUriHandler.current
 

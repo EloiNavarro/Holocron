@@ -9,7 +9,7 @@ class SWCharacterRepository constructor(private val apiDatasource: SwCharacterRe
         return apiDatasource.getAllCharacters(page)
     }
 
-    suspend fun getCharacterById(id: String): Result<SWCharacter> {
+    suspend fun getCharacterById(id: Int): Result<SWCharacter> {
         return apiDatasource.getCharacterById(id)
     }
 }

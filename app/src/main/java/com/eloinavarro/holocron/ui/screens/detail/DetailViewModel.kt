@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
-class DetailViewModel(private val id: String) : ViewModel() {
+class DetailViewModel(private val id: Int) : ViewModel() {
 
     private val characterRepository = SWCharacterRepository(
         apiDatasource = SwCharacterRetrofitDatasource()
@@ -37,7 +37,7 @@ class DetailViewModel(private val id: String) : ViewModel() {
     )
 }
 
-class DetailViewModelFactory(val id: String) : ViewModelProvider.Factory {
+class DetailViewModelFactory(val id: Int) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         return DetailViewModel(id) as T
     }

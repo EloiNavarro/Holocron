@@ -19,7 +19,7 @@ class SwCharacterRetrofitDatasource {
         }
     }
 
-    suspend fun getCharacterById(id: String):Result<SWCharacter> {
+    suspend fun getCharacterById(id: Int):Result<SWCharacter> {
         val response = getApi().getCharacterById(id)
         return if(response.isSuccessful && response.body() != null) {
             Result.success(response.body()!!.toDomainModel())

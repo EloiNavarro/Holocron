@@ -1,14 +1,15 @@
 package com.eloinavarro.holocron.domain
 
 data class SWCharacter(
-    val id: String,
+    val id: Int,
     val name: String,
     val description: String,
     val image: String,
     val bornDate: String,
     val appearance: SwCharacterAppearance,
     val links:List<SwLink>,
-    val url: String
+    val url: String,
+    var isFavorite: Boolean
 )
 
 enum class SwLinkType {
