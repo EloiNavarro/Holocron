@@ -89,6 +89,7 @@ dependencies {
     implementation(libs.appcompat)
     implementation(libs.material)
     implementation(libs.kotlinx.coroutines.android)
+    implementation(libs.androidx.activity.ktx)
     implementation(libs.androidx.fragment.ktx)
 
     testImplementation(libs.junit)

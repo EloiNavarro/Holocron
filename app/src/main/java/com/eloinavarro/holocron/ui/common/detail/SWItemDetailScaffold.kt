@@ -1,4 +1,4 @@
-package com.eloinavarro.holocron.ui.screens.list
+package com.eloinavarro.holocron.ui.common.detail
 
 import android.content.Context
 import androidx.compose.foundation.layout.PaddingValues
@@ -19,33 +19,29 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.platform.LocalContext
 import androidx.core.app.ShareCompat
-import androidx.lifecycle.viewmodel.compose.viewModel
-import com.eloinavarro.holocron.domain.SWCharacter
+import com.eloinavarro.holocron.domain.SWItem
 import com.eloinavarro.holocron.ui.common.ArrowBackIcon
-import com.eloinavarro.holocron.ui.common.CharacterOverflowMenu
-import com.eloinavarro.holocron.ui.screens.detail.DetailViewModel
-import kotlinx.coroutines.flow.update
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CharacterDetailScaffold(
-    character: SWCharacter,
+fun SWItemDetailScaffold(
+    swItem: SWItem,
     onUpClick: () -> Unit,
     content: @Composable (PaddingValues) -> Unit
 ) {
-    val favoriteState = mutableStateOf(character.isFavorite)
+    val favoriteState = mutableStateOf(swItem.isFavorite)
     val context = LocalContext.current
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text(text = character.name) },
+                title = { Text(text = swItem.name) },
                 navigationIcon = { ArrowBackIcon { onUpClick() } },
-                actions = { CharacterOverflowMenu(character.links) }
+                actions = { /*CharacterOverflowMenu(swItem.links)*/ }
             )
         },
         floatingActionButton = {
-            if (character.url.isNotBlank()) {
-                FloatingActionButton(onClick = { shareCharacter(context, character) }) {
+            if (swItem.url.isNotBlank()) {
+                FloatingActionButton(onClick = { shareSWItem(context, swItem) }) {
                     Icon(
                         imageVector = Icons.Default.Share,
                         contentDescription = "Share character"
@@ -72,12 +68,12 @@ fun CharacterDetailScaffold(
     )
 }
 
-fun shareCharacter(context: Context, character: SWCharacter) {
+fun shareSWItem(context: Context, swItem: SWItem) {
     ShareCompat
         .IntentBuilder(context)
         .setType("text/plain")
-        .setSubject(character.name)
-        .setText(character.url)
+        .setSubject(swItem.name)
+        .setText(swItem.url)
         .intent
         .also(context::startActivity)
 }

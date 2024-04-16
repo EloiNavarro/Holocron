@@ -5,7 +5,7 @@ import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
 
-interface SWDatabankApi {
+interface Swapi {
 
     @GET("people")
     suspend fun getAllCharacters(
@@ -24,28 +24,28 @@ interface SWDatabankApi {
     suspend fun getPlanetById(@Path("id") id: Int): Response<SwapiPlanet>
 
     @GET("films")
-    suspend fun getAllFilms(
+    suspend fun getAllMovies(
         @Query("page") page: Int = 1
-    ): Response<SwapiResponse<SwapiCharacter>>
+    ): Response<SwapiResponse<SwapiMovie>>
 
     @GET("films/{id}")
-    suspend fun getFilmById(@Path("id") id: Int): Response<SwapiPlanet>
+    suspend fun getMovieById(@Path("id") id: Int): Response<SwapiMovie>
 
     @GET("species")
     suspend fun getAllSpecies(
         @Query("page") page: Int = 1
-    ): Response<SwapiResponse<SwapiCharacter>>
+    ): Response<SwapiResponse<SwapiSpecie>>
 
     @GET("species/{id}")
-    suspend fun getSpecieById(@Path("id") id: Int): Response<SwapiPlanet>
+    suspend fun getSpecieById(@Path("id") id: Int): Response<SwapiSpecie>
 
     @GET("vehicles")
     suspend fun getAllVehicles(
         @Query("page") page: Int = 1
-    ): Response<SwapiResponse<SwapiCharacter>>
+    ): Response<SwapiResponse<SwapiVehicle>>
 
     @GET("vehicles/{id}")
-    suspend fun getVehicleById(@Path("id") id: Int): Response<SwapiPlanet>
+    suspend fun getVehicleById(@Path("id") id: Int): Response<SwapiVehicle>
 
     @GET("starships")
     suspend fun getAllStarships(

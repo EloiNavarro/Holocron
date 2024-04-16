@@ -1,4 +1,10 @@
 <resources>
     <string name="app_name">Holocron</string>
   <string name="txt_content_description_arrow_back">Arrow back</string>
+  <string name="title_character">Character</string>
+  <string name="title_movie">Movie</string>
+  <string name="title_specie">Specie</string>
+  <string name="title_starship">Starship</string>
+  <string name="title_vehicle">Vehicle</string>
+  <string name="title_planet">Planet</string>
 </resources>

@@ -7,42 +7,39 @@ import com.eloinavarro.holocron.data.repositories.SWCharacterRepository
 import com.eloinavarro.holocron.data.retrofit.SwapiRetrofitDatasource
 import com.eloinavarro.holocron.domain.SWCharacter
 import com.eloinavarro.holocron.domain.usecase.GetCharacterByIdUseCase
-import kotlinx.coroutines.flow.MutableStateFlow
+import com.eloinavarro.holocron.ui.common.detail.DetailViewModel
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
-class DetailViewModel(private val id: Int) : ViewModel() {
+class CharacterDetailViewModel(
+    override val id: Int
+) : DetailViewModel<SWCharacter>() {
 
-    //TODO: Add Hilt and change this
-    private val getCharacterByIdUseCase = GetCharacterByIdUseCase(
+    override val useCase = GetCharacterByIdUseCase(
         repository = SWCharacterRepository(
             apiDatasource = SwapiRetrofitDatasource()
         )
     )
 
-    var uiStateFlow = MutableStateFlow(UIState())
-        private set
-
     init {
         viewModelScope.launch {
-            uiStateFlow.update { it.copy(loading = true) }
-            uiStateFlow.update {
-                it.copy(
-                    character = getCharacterByIdUseCase(id).getOrNull(),
-                    loading = false
-                )
+            useCase(id).onSuccess { item ->
+                uiStateFlow.update { it.copy(loading = true) }
+                uiStateFlow.update {
+                    it.copy(
+                        item = item,
+                        loading = false
+                    )
+                }
+            }.onFailure {
+                // TODO
             }
         }
     }
-
-    data class UIState(
-        val loading: Boolean = false,
-        val character: SWCharacter? = null
-    )
 }
 
-class DetailViewModelFactory(val id: Int) : ViewModelProvider.Factory {
+class CharacterDetailViewModelFactory(val id: Int) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        return DetailViewModel(id) as T
+        return CharacterDetailViewModel(id) as T
     }
 }

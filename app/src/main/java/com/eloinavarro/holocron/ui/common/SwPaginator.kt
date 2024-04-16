@@ -1,6 +1,8 @@
 package com.eloinavarro.holocron.ui.common
 
-class SwPaginator<T>(
+import com.eloinavarro.holocron.domain.SWItem
+
+class SwPaginator<T: SWItem>(
     private val initialPage: Int,
     private inline val isLoading: (Boolean) -> Unit,
     private inline val onRequest: suspend (nextKey: Int) -> Result<List<T>>,

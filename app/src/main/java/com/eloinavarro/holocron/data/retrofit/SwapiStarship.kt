@@ -24,27 +24,3 @@ data class SwapiStarship(
     val edited: String,
     val url: String
 )
-
-fun SwapiStarship.toDomainModel(): SWStarship {
-    val id = url.substringBeforeLast("/", "").substringAfterLast("/").toInt()
-    return SWStarship(
-        id = id,
-        name = name,
-        model = model,
-        starshipClass = starship_class,
-        manufacturer = manufacturer,
-        value = cost_in_credits.toInt(),
-        length = length.toInt(),
-        crew = crew.toInt(),
-        passengers = passengers.toInt(),
-        speedInAtmosphere = max_atmosphering_speed.toIntOrNull(),
-        hyperdrive = hyperdrive_rating.toFloat(),
-        megalights = MGLT,
-        cargoSize = cargo_capacity.toInt(),
-        consumables = consumables,
-        links = films.map { SwLink(it, SwLinkType.MOVIE) } +
-                pilots.map { SwLink(it, SwLinkType.CHARACTER) },
-        url = url,
-        isFavorite = false
-    )
-}

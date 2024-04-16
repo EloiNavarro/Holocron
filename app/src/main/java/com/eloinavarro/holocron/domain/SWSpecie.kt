@@ -1,13 +1,13 @@
 package com.eloinavarro.holocron.domain
 
-data class SWCharacter(
+data class SWSpecie(
     override val id: Int,
     override val name: String,
     override val image: String,
-    val description: String,
-    val bornDate: String,
-    val height: Float?,
-    val weight: Int?,
+    val classification: String,
+    val designation: String,
+    val averageHeight: String,
+    val averageLifespan: String,
     val skinColors: List<String>,
     val eyeColors: List<String>,
     val hairColors: List<String>,
