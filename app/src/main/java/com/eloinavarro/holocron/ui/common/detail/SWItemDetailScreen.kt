@@ -1,6 +1,11 @@
 package com.eloinavarro.holocron.ui.common.detail
 
 import androidx.annotation.StringRes
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -13,16 +18,19 @@ import androidx.compose.material.icons.filled.Movie
 import androidx.compose.material.icons.filled.Public
 import androidx.compose.material.icons.filled.RocketLaunch
 import androidx.compose.material.icons.filled.SafetyDivider
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.ListItem
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
@@ -30,39 +38,69 @@ import com.eloinavarro.holocron.R
 import com.eloinavarro.holocron.domain.SWItem
 import com.eloinavarro.holocron.domain.SwLink
 import com.eloinavarro.holocron.domain.SwLinkType
+import com.eloinavarro.holocron.ui.common.ErrorMessage
 import com.eloinavarro.holocron.ui.common.Screen
 
 @Composable
-fun <T: SWItem> SWItemDetailScreen(uiState: DetailUiState<T>, onUpClick: () -> Unit) {
-    val item = uiState.item
-    item?.let {
-        Screen {
-            SWItemDetailScaffold(item, onUpClick) { padding ->
-                LazyColumn(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(padding)
-                ) {
-                    item {
-                        AsyncImage(
-                            model = ImageRequest.Builder(LocalContext.current)
-                                .data(item.image)
-                                .crossfade(true)
-                                .build(),
-                            contentScale = ContentScale.Crop,
-                            contentDescription = "Main image of ${item.name}",
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .height(200.dp)
-                        )
-                    }
-                    item.links.forEach {
-                        val (icon, @StringRes stringRes) = it.type.getUiData()
-                        section(icon, stringRes, it.links)
+fun <T : SWItem> SWItemDetailScreen(loading: Boolean, result: Result<T>, onUpClick: () -> Unit) {
+    if (loading) {
+        Box(
+            modifier = Modifier.fillMaxSize(),
+            contentAlignment = Alignment.Center
+        ) {
+            CircularProgressIndicator()
+        }
+    }
+
+    result
+        .onFailure { if (!loading) ErrorMessage(it) }
+        .onSuccess { item ->
+            Screen {
+                SWItemDetailScaffold(item, onUpClick) { padding ->
+                    LazyColumn(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(padding)
+                    ) {
+                        item {
+                            Header(swItem = item)
+                        }
+                        item.links.forEach {
+                            val (icon, @StringRes stringRes) = it.type.getUiData()
+                            section(icon, stringRes, it.links)
+                        }
                     }
                 }
             }
         }
+}
+
+@Composable
+private fun Header(swItem: SWItem) {
+    Column(
+        modifier = Modifier.fillMaxWidth()
+    ) {
+        AsyncImage(
+            model = ImageRequest.Builder(LocalContext.current)
+                .data(swItem.image)
+                .crossfade(true)
+                .build(),
+            contentScale = ContentScale.Crop,
+            contentDescription = "Main image of ${swItem.name}",
+            modifier = Modifier
+                .fillMaxWidth()
+                .aspectRatio(1f)
+        )
+        Spacer(modifier = Modifier.height(16.dp))
+        Text(
+            text = swItem.name,
+            textAlign = TextAlign.Center,
+            style = MaterialTheme.typography.headlineMedium,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp, 0.dp)
+        )
+        Spacer(modifier = Modifier.height(16.dp))
     }
 }
 

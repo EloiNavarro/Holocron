@@ -26,8 +26,10 @@ import com.eloinavarro.holocron.ui.common.Screen
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun <T: SWItem> SWItemsListScreen(
-    uiState: ListUiState<T>,
-    viewModel: Paginated,
+    loading: Boolean,
+    endReached: Boolean,
+    swItems: List<T>,
+    paginator: Paginated,
     onItemClick: (T) -> Unit
 ) {
 
@@ -45,17 +47,17 @@ fun <T: SWItem> SWItemsListScreen(
                 contentPadding = PaddingValues(4.dp),
                 modifier = Modifier.padding(padding)
             ) {
-                items(uiState.items.size) { index ->
-                    if (index >= uiState.items.size - 1
-                        && !uiState.endReached
-                        && !uiState.loading
+                items(swItems.size) { index ->
+                    if (index >= swItems.size - 1
+                        && !endReached
+                        && !loading
                     ) {
-                        viewModel.loadNextPage()
+                        paginator.loadNextPage()
                     }
                     SWListItem(
-                        swItem = uiState.items[index],
+                        swItem = swItems[index],
                         modifier = Modifier.clickable {
-                            onItemClick(uiState.items[index])
+                            onItemClick(swItems[index])
                         }
                     )
                 }
@@ -64,7 +66,7 @@ fun <T: SWItem> SWItemsListScreen(
                         GridItemSpan(2)
                     }
                 ) {
-                    if (uiState.loading) {
+                    if (loading) {
                         Row(
                             modifier = Modifier
                                 .fillMaxWidth()

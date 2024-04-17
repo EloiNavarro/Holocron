@@ -23,16 +23,12 @@ class CharacterDetailViewModel(
 
     init {
         viewModelScope.launch {
-            useCase(id).onSuccess { item ->
-                uiStateFlow.update { it.copy(loading = true) }
-                uiStateFlow.update {
-                    it.copy(
-                        item = item,
-                        loading = false
-                    )
-                }
-            }.onFailure {
-                // TODO
+            uiStateFlow.update { it.copy(loading = true) }
+            uiStateFlow.update {
+                it.copy(
+                    item = useCase(id),
+                    loading = false
+                )
             }
         }
     }

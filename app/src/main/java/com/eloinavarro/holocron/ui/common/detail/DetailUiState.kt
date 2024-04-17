@@ -4,5 +4,5 @@ import com.eloinavarro.holocron.domain.SWItem
 
 data class DetailUiState<T:SWItem> (
     val loading: Boolean = false,
-    val item: T? = null
+    val item: Result<T> = Result.failure(Exception("Item not found"))
 )

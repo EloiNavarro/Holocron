@@ -16,5 +16,5 @@ fun CharacterDetailScreen(
         viewModel(factory = CharacterDetailViewModelFactory(id))
     val uiState by viewModel.uiStateFlow.collectAsState()
 
-    SWItemDetailScreen(uiState, onUpClick)
+    SWItemDetailScreen(uiState.loading, uiState.item, onUpClick)
 }

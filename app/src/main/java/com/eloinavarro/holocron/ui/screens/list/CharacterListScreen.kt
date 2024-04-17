@@ -13,5 +13,11 @@ fun CharacterListScreen(onItemClick: (SWCharacter) -> Unit) {
     val viewModel:CharacterListViewModel = viewModel()
     val uiState by viewModel.uiStateFlow.collectAsState()
 
-    SWItemsListScreen(uiState = uiState, viewModel = viewModel, onItemClick = onItemClick)
+    SWItemsListScreen(
+        loading = uiState.loading,
+        endReached = uiState.endReached,
+        swItems = uiState.items,
+        paginator = viewModel,
+        onItemClick = onItemClick
+    )
 }
