@@ -1,5 +1,6 @@
 package com.eloinavarro.holocron.data
 
+import android.util.Log
 import com.eloinavarro.holocron.data.retrofit.SwapiCharacter
 import com.eloinavarro.holocron.data.retrofit.SwapiMovie
 import com.eloinavarro.holocron.data.retrofit.SwapiPlanet
@@ -47,14 +48,14 @@ fun SwapiPlanet.toDomainModel(): SWPlanet {
         id = url.toId(),
         name = name,
         image = "https://singlecolorimage.com/get/$color/300x300",
-        diameter = diameter.toInt(),
+        diameter = diameter.toIntOrNull() ?: -1,
         climate = climate,
         water = surface_water.toIntOrNull() ?: -1,
         terrain = terrain,
         gravity = gravity,
-        hoursForDay = rotation_period.toInt(),
-        daysForYear = orbital_period.toInt(),
-        population = population.toInt(),
+        hoursForDay = rotation_period.toIntOrNull() ?: -1,
+        daysForYear = orbital_period.toIntOrNull() ?: -1,
+        population = population.toIntOrNull() ?: -1,
         links = listOf(
             SwLinkList(SwLinkType.MOVIE, films.map { SwLink(it.toId()) }),
             SwLinkList(SwLinkType.CHARACTER, residents.map { SwLink(it.toId()) })
@@ -164,7 +165,8 @@ fun SwapiMovie.toDomainModel(): SWMovie {
 private fun nameToHexColor(name: String): String {
     val hashCode = name.hashCode()
     val hexString = Integer.toHexString(hashCode)
-    return hexString.padStart(6, '0')
+    val value = hexString.substring(0,6).padStart(6, '0')
+    return value
 }
 
 private fun randomColor(id: Int): String {

@@ -9,16 +9,39 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navigation
 import com.eloinavarro.holocron.ui.screens.detail.CharacterDetailScreen
+import com.eloinavarro.holocron.ui.screens.detail.PlanetDetailScreen
 import com.eloinavarro.holocron.ui.screens.list.CharacterListScreen
+import com.eloinavarro.holocron.ui.screens.list.PlanetListScreen
 
 @Composable
 fun Navigation() {
     val navController = rememberNavController()
     NavHost(
         navController = navController,
-        startDestination = NavigationFeature.CHARACTERS.route
+        startDestination = NavigationFeature.PLANETS.route
     ) {
         characters(navController)
+        planets(navController)
+    }
+}
+
+private fun NavGraphBuilder.planets(navController: NavController) {
+    navigation(
+        startDestination = NavScreen.NavContent(NavigationFeature.PLANETS).route,
+        route = NavigationFeature.PLANETS.route
+    ) {
+        composable(NavScreen.NavContent(NavigationFeature.PLANETS)) {
+            PlanetListScreen {
+                navController.navigate(NavScreen.NavContentDetail(NavigationFeature.PLANETS).createNavRoute(it.id))
+            }
+        }
+        composable(NavScreen.NavContentDetail(NavigationFeature.PLANETS)) { backStackEntry ->
+            val id = backStackEntry.findArg<Int>(NavArg.ID)
+            PlanetDetailScreen(
+                id = id,
+                onUpClick = { navController.popBackStack() }
+            )
+        }
     }
 }
 
