@@ -5,6 +5,13 @@ import com.eloinavarro.holocron.domain.SWCharacter
 fun List<SWCharacter>.sortByNameCaseInsensitive()
     = this.sortedWith(compareBy(String.CASE_INSENSITIVE_ORDER) { character -> character.name })
 
+fun Int.toDate(): String =
+    if(this < 0) {
+        "$this BBY"
+    } else {
+        "$this ABY"
+    }
+
 fun String.toHeight(): String {
     val value = this.toFloatOrNull()
     value?.let {

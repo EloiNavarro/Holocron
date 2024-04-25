@@ -1,12 +1,12 @@
 package com.eloinavarro.holocron.data
 
-import android.util.Log
-import com.eloinavarro.holocron.data.retrofit.SwapiCharacter
-import com.eloinavarro.holocron.data.retrofit.SwapiMovie
-import com.eloinavarro.holocron.data.retrofit.SwapiPlanet
-import com.eloinavarro.holocron.data.retrofit.SwapiSpecie
-import com.eloinavarro.holocron.data.retrofit.SwapiStarship
-import com.eloinavarro.holocron.data.retrofit.SwapiVehicle
+import com.eloinavarro.holocron.data.retrofit.model.ApiCharacter
+import com.eloinavarro.holocron.data.retrofit.model.SwapiCharacter
+import com.eloinavarro.holocron.data.retrofit.model.SwapiMovie
+import com.eloinavarro.holocron.data.retrofit.model.SwapiPlanet
+import com.eloinavarro.holocron.data.retrofit.model.SwapiSpecie
+import com.eloinavarro.holocron.data.retrofit.model.SwapiStarship
+import com.eloinavarro.holocron.data.retrofit.model.SwapiVehicle
 import com.eloinavarro.holocron.domain.SWCharacter
 import com.eloinavarro.holocron.domain.SWMovie
 import com.eloinavarro.holocron.domain.SWPlanet
@@ -16,7 +16,26 @@ import com.eloinavarro.holocron.domain.SWVehicle
 import com.eloinavarro.holocron.domain.SwLink
 import com.eloinavarro.holocron.domain.SwLinkList
 import com.eloinavarro.holocron.domain.SwLinkType
+import com.eloinavarro.holocron.ui.common.toDate
 import java.net.URLEncoder
+
+fun ApiCharacter.toDomainModel(): SWCharacter {
+    return SWCharacter(
+        id = id,
+        name = name,
+        image = image,
+        description = "",
+        bornDate = born.toDate(),
+        height = height.toFloat(),
+        weight = mass,
+        skinColors = listOf(skinColor),
+        eyeColors = listOf(eyeColor),
+        hairColors = listOf(hairColor),
+        links = emptyList(),
+        url = wiki,
+        isFavorite = false
+    )
+}
 
 fun SwapiCharacter.toDomainModel(): SWCharacter {
     val encodedName = URLEncoder.encode(name, "UTF-8")
@@ -75,13 +94,13 @@ fun SwapiStarship.toDomainModel(): SWStarship {
         starshipClass = starship_class,
         manufacturer = manufacturer,
         value = cost_in_credits.toIntOrNull() ?: -1,
-        length = length.toFloat(),
-        crew = crew.toInt(),
-        passengers = passengers.toInt(),
+        length = length.toFloatOrNull() ?: -1f,
+        crew = crew.toIntOrNull() ?: -1,
+        passengers = passengers.toIntOrNull() ?: -1,
         speedInAtmosphere = max_atmosphering_speed.toIntOrNull(),
-        hyperdrive = hyperdrive_rating.toFloat(),
+        hyperdrive = hyperdrive_rating.toFloatOrNull() ?: -1f,
         megalights = MGLT,
-        cargoSize = cargo_capacity.toInt(),
+        cargoSize = cargo_capacity.toIntOrNull() ?: -1,
         consumables = consumables,
         links = listOf(
             SwLinkList(SwLinkType.MOVIE, films.map { SwLink(it.toId()) }),
@@ -141,7 +160,7 @@ fun SwapiVehicle.toDomainModel(): SWVehicle {
 }
 
 fun SwapiMovie.toDomainModel(): SWMovie {
-    return SWMovie (
+    return SWMovie(
         id = url.toId(),
         name = title,
         image = "",
@@ -165,7 +184,7 @@ fun SwapiMovie.toDomainModel(): SWMovie {
 private fun nameToHexColor(name: String): String {
     val hashCode = name.hashCode()
     val hexString = Integer.toHexString(hashCode)
-    val value = hexString.substring(0,6).padStart(6, '0')
+    val value = hexString.substring(0, 6).padStart(6, '0')
     return value
 }
 
@@ -179,4 +198,4 @@ private fun randomColor(id: Int): String {
     }
 }
 
-fun String.toId():Int = substringBeforeLast("/", "").substringAfterLast("/").toInt()
+fun String.toId(): Int = substringBeforeLast("/", "").substringAfterLast("/").toInt()

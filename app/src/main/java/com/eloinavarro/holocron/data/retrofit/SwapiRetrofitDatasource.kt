@@ -14,7 +14,7 @@ class SwapiRetrofitDatasource {
 
 
     suspend fun getAllCharacters(page: Int): Result<List<SWCharacter>> {
-        val response = RetrofitClient.charactersService.getAllCharacters(page)
+        val response = SwapiRetrofitClient.charactersService.getAllCharacters(page)
         return if(response.isSuccessful && response.body() != null) {
             Result.success(response.body()!!.results.map { it.toDomainModel() })
         } else {
@@ -23,7 +23,7 @@ class SwapiRetrofitDatasource {
     }
 
     suspend fun getCharacterById(id: Int, recursive: Boolean = true):Result<SWCharacter> {
-        val response = RetrofitClient.charactersService.getCharacterById(id)
+        val response = SwapiRetrofitClient.charactersService.getCharacterById(id)
         return if(response.isSuccessful && response.body() != null) {
             val successResult = response.body()!!.toDomainModel()
             if(recursive) successResult.links = populateLinks(successResult.links)
@@ -34,7 +34,7 @@ class SwapiRetrofitDatasource {
     }
 
     suspend fun getAllPlanets(page: Int): Result<List<SWPlanet>> {
-        val response = RetrofitClient.planetsService.getAllPlanets(page)
+        val response = SwapiRetrofitClient.planetsService.getAllPlanets(page)
         return if(response.isSuccessful && response.body() != null) {
             Result.success(response.body()!!.results.map { it.toDomainModel() })
         } else {
@@ -43,7 +43,7 @@ class SwapiRetrofitDatasource {
     }
 
     suspend fun getPlanetById(id: Int, recursive: Boolean = true):Result<SWPlanet> {
-        val response = RetrofitClient.planetsService.getPlanetById(id)
+        val response = SwapiRetrofitClient.planetsService.getPlanetById(id)
         return if(response.isSuccessful && response.body() != null) {
             val successResult = response.body()!!.toDomainModel()
             if(recursive) successResult.links = populateLinks(successResult.links)
@@ -54,7 +54,7 @@ class SwapiRetrofitDatasource {
     }
 
     suspend fun getAllStarships(page: Int): Result<List<SWStarship>> {
-        val response = RetrofitClient.starshipsService.getAllStarships(page)
+        val response = SwapiRetrofitClient.starshipsService.getAllStarships(page)
         return if(response.isSuccessful && response.body() != null) {
             Result.success(response.body()!!.results.map { it.toDomainModel() })
         } else {
@@ -63,7 +63,7 @@ class SwapiRetrofitDatasource {
     }
 
     suspend fun getStarshipById(id: Int, recursive: Boolean = true):Result<SWStarship> {
-        val response = RetrofitClient.starshipsService.getStarshipById(id)
+        val response = SwapiRetrofitClient.starshipsService.getStarshipById(id)
         return if(response.isSuccessful && response.body() != null) {
             val successResult = response.body()!!.toDomainModel()
             if(recursive) successResult.links = populateLinks(successResult.links)
@@ -74,27 +74,27 @@ class SwapiRetrofitDatasource {
     }
 
     suspend fun getAllVehicles(page: Int): Result<List<SWVehicle>> {
-        val response = RetrofitClient.vehiclesService.getAllVehicles(page)
+        val response = SwapiRetrofitClient.vehiclesService.getAllVehicles(page)
         return if(response.isSuccessful && response.body() != null) {
             Result.success(response.body()!!.results.map { it.toDomainModel() })
         } else {
-            Result.failure(Exception("Error getAllStarships"))
+            Result.failure(Exception("Error getAllVehicles"))
         }
     }
 
     suspend fun getVehicleById(id: Int, recursive: Boolean = true):Result<SWVehicle> {
-        val response = RetrofitClient.vehiclesService.getVehicleById(id)
+        val response = SwapiRetrofitClient.vehiclesService.getVehicleById(id)
         return if(response.isSuccessful && response.body() != null) {
             val successResult = response.body()!!.toDomainModel()
             if(recursive) successResult.links = populateLinks(successResult.links)
             Result.success(successResult)
         } else {
-            Result.failure(Exception("Error getStarshipById($id)"))
+            Result.failure(Exception("Error getVehicleById($id)"))
         }
     }
 
     suspend fun getAllSpecies(page: Int): Result<List<SWSpecie>> {
-        val response = RetrofitClient.speciesService.getAllSpecies(page)
+        val response = SwapiRetrofitClient.speciesService.getAllSpecies(page)
         return if(response.isSuccessful && response.body() != null) {
             Result.success(response.body()!!.results.map { it.toDomainModel() })
         } else {
@@ -103,7 +103,7 @@ class SwapiRetrofitDatasource {
     }
 
     suspend fun getSpecieById(id: Int, recursive: Boolean = true):Result<SWSpecie> {
-        val response = RetrofitClient.speciesService.getSpecieById(id)
+        val response = SwapiRetrofitClient.speciesService.getSpecieById(id)
         return if(response.isSuccessful && response.body() != null) {
             val successResult = response.body()!!.toDomainModel()
             if(recursive) successResult.links = populateLinks(successResult.links)
@@ -114,7 +114,7 @@ class SwapiRetrofitDatasource {
     }
 
     suspend fun getAllMovies(page: Int): Result<List<SWMovie>> {
-        val response = RetrofitClient.moviesService.getAllMovies(page)
+        val response = SwapiRetrofitClient.moviesService.getAllMovies(page)
         return if(response.isSuccessful && response.body() != null) {
             Result.success(response.body()!!.results.map { it.toDomainModel() })
         } else {
@@ -123,7 +123,7 @@ class SwapiRetrofitDatasource {
     }
 
     suspend fun getMovieById(id: Int, recursive: Boolean = true):Result<SWMovie> {
-        val response = RetrofitClient.moviesService.getMovieById(id)
+        val response = SwapiRetrofitClient.moviesService.getMovieById(id)
         return if(response.isSuccessful && response.body() != null) {
             val successResult = response.body()!!.toDomainModel()
             if(recursive) successResult.links = populateLinks(successResult.links)

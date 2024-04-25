@@ -21,60 +21,56 @@ import androidx.compose.ui.unit.dp
 import com.eloinavarro.holocron.R
 import com.eloinavarro.holocron.domain.SWItem
 import com.eloinavarro.holocron.ui.common.Paginated
-import com.eloinavarro.holocron.ui.common.Screen
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun <T: SWItem> SWItemsListScreen(
+fun <T : SWItem> SWItemsListScreen(
     loading: Boolean,
     endReached: Boolean,
     swItems: List<T>,
     paginator: Paginated,
     onItemClick: (T) -> Unit
 ) {
-
-    Screen {
-        Scaffold(
-            topBar = {
-                TopAppBar(
-                    title = { Text(text = stringResource(R.string.app_name)) },
-                    navigationIcon = {}
+    Scaffold(
+        topBar = {
+            TopAppBar(
+                title = { Text(text = stringResource(R.string.app_name)) },
+                navigationIcon = {}
+            )
+        }
+    ) { padding ->
+        LazyVerticalGrid(
+            columns = GridCells.Adaptive(180.dp),
+            contentPadding = PaddingValues(4.dp),
+            modifier = Modifier.padding(padding)
+        ) {
+            items(swItems.size) { index ->
+                if (index >= swItems.size - 1
+                    && !endReached
+                    && !loading
+                ) {
+                    paginator.loadNextPage()
+                }
+                SWListItem(
+                    swItem = swItems[index],
+                    modifier = Modifier.clickable {
+                        onItemClick(swItems[index])
+                    }
                 )
             }
-        ) { padding ->
-            LazyVerticalGrid(
-                columns = GridCells.Adaptive(180.dp),
-                contentPadding = PaddingValues(4.dp),
-                modifier = Modifier.padding(padding)
-            ) {
-                items(swItems.size) { index ->
-                    if (index >= swItems.size - 1
-                        && !endReached
-                        && !loading
-                    ) {
-                        paginator.loadNextPage()
-                    }
-                    SWListItem(
-                        swItem = swItems[index],
-                        modifier = Modifier.clickable {
-                            onItemClick(swItems[index])
-                        }
-                    )
+            item(
+                span = {
+                    GridItemSpan(2)
                 }
-                item (
-                    span = {
-                        GridItemSpan(2)
-                    }
-                ) {
-                    if (loading) {
-                        Row(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(16.dp),
-                            horizontalArrangement = Arrangement.Center
-                        ) {
-                            CircularProgressIndicator()
-                        }
+            ) {
+                if (loading) {
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(16.dp),
+                        horizontalArrangement = Arrangement.Center
+                    ) {
+                        CircularProgressIndicator()
                     }
                 }
             }

@@ -12,10 +12,11 @@ class SwPaginator<T: SWItem>(
 ){
 
     private var currentPage = initialPage
+    private var hasNextPage = true
     private var isMakingRequest = false
 
     suspend fun loadNextPage() {
-        if(isMakingRequest) { return }
+        if(isMakingRequest || !hasNextPage) { return }
         isMakingRequest = true
         isLoading(true)
         val result = onRequest(currentPage)
@@ -23,6 +24,7 @@ class SwPaginator<T: SWItem>(
         val items = result.getOrElse {
             onError(it)
             isLoading(false)
+            hasNextPage = false
             return
         }
         currentPage = getNextPage(currentPage)
@@ -32,6 +34,7 @@ class SwPaginator<T: SWItem>(
 
     suspend fun reset() {
         currentPage = initialPage
+        hasNextPage = true
     }
 
 }

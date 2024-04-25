@@ -1,7 +1,7 @@
 package com.eloinavarro.holocron.data.retrofit.services
 
-import com.eloinavarro.holocron.data.retrofit.SwapiMovie
-import com.eloinavarro.holocron.data.retrofit.SwapiResponse
+import com.eloinavarro.holocron.data.retrofit.model.SwapiMovie
+import com.eloinavarro.holocron.data.retrofit.model.SwapiResponse
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Path

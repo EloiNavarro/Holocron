@@ -39,7 +39,6 @@ import com.eloinavarro.holocron.domain.SWItem
 import com.eloinavarro.holocron.domain.SwLink
 import com.eloinavarro.holocron.domain.SwLinkType
 import com.eloinavarro.holocron.ui.common.ErrorMessage
-import com.eloinavarro.holocron.ui.common.Screen
 
 @Composable
 fun <T : SWItem> SWItemDetailScreen(loading: Boolean, result: Result<T>, onUpClick: () -> Unit) {
@@ -55,20 +54,18 @@ fun <T : SWItem> SWItemDetailScreen(loading: Boolean, result: Result<T>, onUpCli
     result
         .onFailure { if (!loading) ErrorMessage(it) }
         .onSuccess { item ->
-            Screen {
-                SWItemDetailScaffold(item, onUpClick) { padding ->
-                    LazyColumn(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(padding)
-                    ) {
-                        item {
-                            Header(swItem = item)
-                        }
-                        item.links.forEach {
-                            val (icon, @StringRes stringRes) = it.type.getUiData()
-                            section(icon, stringRes, it.links)
-                        }
+            SWItemDetailScaffold(item, onUpClick) { padding ->
+                LazyColumn(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(padding)
+                ) {
+                    item {
+                        Header(swItem = item)
+                    }
+                    item.links.forEach {
+                        val (icon, @StringRes stringRes) = it.type.getUiData()
+                        section(icon, stringRes, it.links)
                     }
                 }
             }

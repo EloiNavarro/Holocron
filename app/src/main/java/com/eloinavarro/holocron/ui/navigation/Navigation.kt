@@ -4,40 +4,65 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
+import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navigation
-import com.eloinavarro.holocron.ui.screens.detail.CharacterDetailScreen
-import com.eloinavarro.holocron.ui.screens.detail.PlanetDetailScreen
-import com.eloinavarro.holocron.ui.screens.list.CharacterListScreen
-import com.eloinavarro.holocron.ui.screens.list.PlanetListScreen
+import com.eloinavarro.holocron.ui.screens.characters.CharacterDetailScreen
+import com.eloinavarro.holocron.ui.screens.planets.PlanetDetailScreen
+import com.eloinavarro.holocron.ui.screens.characters.CharacterListScreen
+import com.eloinavarro.holocron.ui.screens.planets.PlanetListScreen
+import com.eloinavarro.holocron.ui.screens.starships.StarshipDetailScreen
+import com.eloinavarro.holocron.ui.screens.starships.StarshipListScreen
+import com.eloinavarro.holocron.ui.screens.vehicles.VehicleDetailScreen
+import com.eloinavarro.holocron.ui.screens.vehicles.VehicleListScreen
 
 @Composable
-fun Navigation() {
-    val navController = rememberNavController()
+fun Navigation(navController: NavHostController) {
     NavHost(
         navController = navController,
-        startDestination = NavigationFeature.PLANETS.route
+        startDestination = NavigationFeature.CHARACTERS.route
     ) {
         characters(navController)
         planets(navController)
+        starships(navController)
+        vehicles(navController)
     }
 }
 
 private fun NavGraphBuilder.planets(navController: NavController) {
     navigation(
-        startDestination = NavScreen.NavContent(NavigationFeature.PLANETS).route,
+        startDestination = NavCommand.NavContent(NavigationFeature.PLANETS).route,
         route = NavigationFeature.PLANETS.route
     ) {
-        composable(NavScreen.NavContent(NavigationFeature.PLANETS)) {
+        composable(NavCommand.NavContent(NavigationFeature.PLANETS)) {
             PlanetListScreen {
-                navController.navigate(NavScreen.NavContentDetail(NavigationFeature.PLANETS).createNavRoute(it.id))
+                navController.navigate(NavCommand.NavContentDetail(NavigationFeature.PLANETS).createNavRoute(it.id))
             }
         }
-        composable(NavScreen.NavContentDetail(NavigationFeature.PLANETS)) { backStackEntry ->
+        composable(NavCommand.NavContentDetail(NavigationFeature.PLANETS)) { backStackEntry ->
             val id = backStackEntry.findArg<Int>(NavArg.ID)
             PlanetDetailScreen(
+                id = id,
+                onUpClick = { navController.popBackStack() }
+            )
+        }
+    }
+}
+
+private fun NavGraphBuilder.vehicles(navController: NavController) {
+    navigation(
+        startDestination = NavCommand.NavContent(NavigationFeature.VEHICLES).route,
+        route = NavigationFeature.VEHICLES.route
+    ) {
+        composable(NavCommand.NavContent(NavigationFeature.VEHICLES)) {
+            VehicleListScreen {
+                navController.navigate(NavCommand.NavContentDetail(NavigationFeature.VEHICLES).createNavRoute(it.id))
+            }
+        }
+        composable(NavCommand.NavContentDetail(NavigationFeature.VEHICLES)) { backStackEntry ->
+            val id = backStackEntry.findArg<Int>(NavArg.ID)
+            VehicleDetailScreen(
                 id = id,
                 onUpClick = { navController.popBackStack() }
             )
@@ -49,15 +74,15 @@ private fun NavGraphBuilder.characters(
     navController: NavController
 ) {
     navigation(
-        startDestination = NavScreen.NavContent(NavigationFeature.CHARACTERS).route,
+        startDestination = NavCommand.NavContent(NavigationFeature.CHARACTERS).route,
         route = NavigationFeature.CHARACTERS.route
     ) {
-        composable(NavScreen.NavContent(NavigationFeature.CHARACTERS)) {
+        composable(NavCommand.NavContent(NavigationFeature.CHARACTERS)) {
             CharacterListScreen {
-                navController.navigate(NavScreen.NavContentDetail(NavigationFeature.CHARACTERS).createNavRoute(it.id))
+                navController.navigate(NavCommand.NavContentDetail(NavigationFeature.CHARACTERS).createNavRoute(it.id))
             }
         }
-        composable(NavScreen.NavContentDetail(NavigationFeature.CHARACTERS)) { backStackEntry ->
+        composable(NavCommand.NavContentDetail(NavigationFeature.CHARACTERS)) { backStackEntry ->
             val id = backStackEntry.findArg<Int>(NavArg.ID)
             CharacterDetailScreen(
                 id = id,
@@ -67,8 +92,28 @@ private fun NavGraphBuilder.characters(
     }
 }
 
+private fun NavGraphBuilder.starships(navController: NavController) {
+    navigation(
+        startDestination = NavCommand.NavContent(NavigationFeature.STARSHIPS).route,
+        route = NavigationFeature.STARSHIPS.route
+    ) {
+        composable(NavCommand.NavContent(NavigationFeature.STARSHIPS)) {
+            StarshipListScreen {
+                navController.navigate(NavCommand.NavContentDetail(NavigationFeature.STARSHIPS).createNavRoute(it.id))
+            }
+        }
+        composable(NavCommand.NavContentDetail(NavigationFeature.STARSHIPS)) { backStackEntry ->
+            val id = backStackEntry.findArg<Int>(NavArg.ID)
+            StarshipDetailScreen(
+                id = id,
+                onUpClick = { navController.popBackStack() }
+            )
+        }
+    }
+}
+
 private fun NavGraphBuilder.composable(
-    navItem: NavScreen,
+    navItem: NavCommand,
     content: @Composable (NavBackStackEntry) -> Unit
 ) {
     composable(
