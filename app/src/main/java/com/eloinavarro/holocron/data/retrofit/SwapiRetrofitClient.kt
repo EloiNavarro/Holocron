@@ -33,8 +33,7 @@ object SwapiRetrofitClient {
     private fun getRetrofit(): Retrofit = Retrofit.Builder()
         .baseUrl(BASE_URL)
         .addConverterFactory(GsonConverterFactory.create())
-//        .client(okHttpClient)
-        .client(unworthyHttpClient())
+        .client(okHttpClient)
         .build()
 
     val charactersService: CharactersService = getRetrofit().create()
@@ -44,32 +43,4 @@ object SwapiRetrofitClient {
     val starshipsService: StarshipsService = getRetrofit().create()
     val vehiclesService: VehiclesService = getRetrofit().create()
 
-    private fun untrustworthyManager(): Array<TrustManager> = listOf(
-        object : X509TrustManager {
-            override fun checkClientTrusted(
-                chain: Array<out X509Certificate>?,
-                authType: String?
-            ) {
-            }
-
-            override fun checkServerTrusted(
-                chain: Array<out X509Certificate>?,
-                authType: String?
-            ) {
-            }
-
-            override fun getAcceptedIssuers(): Array<X509Certificate> = emptyArray()
-        }
-    ).toTypedArray()
-
-    private fun unworthyHttpClient(): OkHttpClient {
-        val sslContext = SSLContext.getInstance("SSL")
-        val untrustworthyManager = untrustworthyManager()
-        sslContext.init(null, untrustworthyManager, SecureRandom())
-        val sslSocketFactory = sslContext.socketFactory
-        return OkHttpClient.Builder()
-            .sslSocketFactory(sslSocketFactory, untrustworthyManager[0] as X509TrustManager)
-            .hostnameVerifier { _, _ -> true }
-            .build()
-    }
 }

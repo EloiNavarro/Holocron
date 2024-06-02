@@ -4,7 +4,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.eloinavarro.holocron.data.repositories.SWCharacterRepository
-import com.eloinavarro.holocron.data.retrofit.StarWarsApiRetrofitDatasource
 import com.eloinavarro.holocron.data.retrofit.SwapiRetrofitDatasource
 import com.eloinavarro.holocron.domain.SWCharacter
 import com.eloinavarro.holocron.domain.usecase.GetCharacterByIdUseCase
@@ -18,7 +17,7 @@ class CharacterDetailViewModel(
 
     override val useCase = GetCharacterByIdUseCase(
         repository = SWCharacterRepository(
-            apiDatasource = StarWarsApiRetrofitDatasource()
+            apiDatasource = SwapiRetrofitDatasource()
         )
     )
 

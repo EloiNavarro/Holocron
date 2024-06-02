@@ -1,6 +1,5 @@
 package com.eloinavarro.holocron.ui.common
 
-import android.util.Log
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Icon
@@ -33,8 +32,6 @@ fun SWApplication() {
                         NavigationBarItem(
                             selected = currentRoute.contains(item.navCommand.feature.route),
                             onClick = {
-                                Log.d("DEBUG", "currentRoute = $currentRoute")
-                                Log.d("DEBUG", "feature.route = ${item.navCommand.feature.route}")
                                 navController.navigate(item.navCommand.route) {
                                     popUpTo(navController.graph.findStartDestination().id) {
                                         saveState = true
