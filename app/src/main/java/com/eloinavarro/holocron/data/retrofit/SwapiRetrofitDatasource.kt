@@ -1,5 +1,6 @@
 package com.eloinavarro.holocron.data.retrofit
 
+import com.eloinavarro.holocron.data.Datasource
 import com.eloinavarro.holocron.data.toDomainModel
 import com.eloinavarro.holocron.domain.SWCharacter
 import com.eloinavarro.holocron.domain.SWMovie
@@ -11,7 +12,7 @@ import com.eloinavarro.holocron.domain.SwLink
 import com.eloinavarro.holocron.domain.SwLinkList
 import com.eloinavarro.holocron.domain.SwLinkType
 
-class SwapiRetrofitDatasource : ApiDatasource {
+class SwapiRetrofitDatasource : Datasource {
 
 
     override suspend fun getAllCharacters(page: Int): Result<List<SWCharacter>> {

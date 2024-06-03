@@ -3,23 +3,17 @@ package com.eloinavarro.holocron.ui.screens.planets
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
-import com.eloinavarro.holocron.data.repositories.SWPlanetRepository
-import com.eloinavarro.holocron.data.retrofit.SwapiRetrofitDatasource
 import com.eloinavarro.holocron.domain.SWPlanet
 import com.eloinavarro.holocron.domain.usecase.GetPlanetByIdUseCase
 import com.eloinavarro.holocron.ui.common.detail.DetailViewModel
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import org.koin.core.component.KoinComponent
+import org.koin.core.component.inject
 
-class PlanetDetailViewModel(
-    override val id: Int
-) : DetailViewModel<SWPlanet>() {
+class PlanetDetailViewModel(override val id: Int) : DetailViewModel<SWPlanet>(), KoinComponent {
 
-    override val useCase = GetPlanetByIdUseCase(
-        repository = SWPlanetRepository(
-            apiDatasource = SwapiRetrofitDatasource()
-        )
-    )
+    override val useCase: GetPlanetByIdUseCase by inject()
 
     init {
         viewModelScope.launch {

@@ -1,24 +1,16 @@
 package com.eloinavarro.holocron.ui.screens.starships
 
 import androidx.lifecycle.viewModelScope
-import com.eloinavarro.holocron.data.repositories.SWMovieRepository
-import com.eloinavarro.holocron.data.repositories.SWStarshipRepository
-import com.eloinavarro.holocron.data.retrofit.SwapiRetrofitDatasource
-import com.eloinavarro.holocron.domain.SWMovie
 import com.eloinavarro.holocron.domain.SWStarship
-import com.eloinavarro.holocron.domain.usecase.GetMoviesUseCase
 import com.eloinavarro.holocron.domain.usecase.GetStarshipsUseCase
 import com.eloinavarro.holocron.ui.common.list.ListViewModel
 import kotlinx.coroutines.launch
+import org.koin.core.component.KoinComponent
+import org.koin.core.component.inject
 
-class StarshipListViewModel : ListViewModel<SWStarship>() {
+class StarshipListViewModel : ListViewModel<SWStarship>(), KoinComponent {
 
-    //TODO: Add Hilt and change this
-    override val useCase = GetStarshipsUseCase(
-        repository = SWStarshipRepository(
-            apiDatasource = SwapiRetrofitDatasource()
-        )
-    )
+    override val useCase: GetStarshipsUseCase by inject()
 
     init {
         viewModelScope.launch {

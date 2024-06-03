@@ -1,4 +1,4 @@
-package com.eloinavarro.holocron.data.retrofit
+package com.eloinavarro.holocron.data
 
 import com.eloinavarro.holocron.domain.SWCharacter
 import com.eloinavarro.holocron.domain.SWMovie
@@ -7,7 +7,7 @@ import com.eloinavarro.holocron.domain.SWSpecie
 import com.eloinavarro.holocron.domain.SWStarship
 import com.eloinavarro.holocron.domain.SWVehicle
 
-interface ApiDatasource {
+interface Datasource {
     suspend fun getAllCharacters(page: Int): Result<List<SWCharacter>>
     suspend fun getCharacterById(id: Int):Result<SWCharacter>
 

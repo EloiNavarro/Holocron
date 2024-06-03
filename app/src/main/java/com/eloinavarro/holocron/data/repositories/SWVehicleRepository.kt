@@ -1,16 +1,17 @@
 package com.eloinavarro.holocron.data.repositories
 
-import com.eloinavarro.holocron.data.retrofit.SwapiRetrofitDatasource
+import com.eloinavarro.holocron.data.Datasource
+import com.eloinavarro.holocron.data.StorageDatasource
 import com.eloinavarro.holocron.domain.SWVehicle
 
-class SWVehicleRepository constructor(private val apiDatasource: SwapiRetrofitDatasource) :
+class SWVehicleRepository (private val datasource: Datasource, private val cache: StorageDatasource) :
     Repository<SWVehicle>() {
 
     suspend fun getAllVehicles(page: Int): Result<List<SWVehicle>> {
-        return apiDatasource.getAllVehicles(page)
+        return datasource.getAllVehicles(page)
     }
 
     suspend fun getVehicleById(id: Int): Result<SWVehicle> {
-        return apiDatasource.getVehicleById(id)
+        return datasource.getVehicleById(id)
     }
 }

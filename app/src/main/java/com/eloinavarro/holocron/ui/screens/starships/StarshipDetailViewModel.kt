@@ -3,23 +3,19 @@ package com.eloinavarro.holocron.ui.screens.starships
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
-import com.eloinavarro.holocron.data.repositories.SWStarshipRepository
-import com.eloinavarro.holocron.data.retrofit.SwapiRetrofitDatasource
 import com.eloinavarro.holocron.domain.SWStarship
 import com.eloinavarro.holocron.domain.usecase.GetStarshipByIdUseCase
 import com.eloinavarro.holocron.ui.common.detail.DetailViewModel
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import org.koin.core.component.KoinComponent
+import org.koin.core.component.inject
 
 class StarshipDetailViewModel(
     override val id: Int
-) : DetailViewModel<SWStarship>() {
+) : DetailViewModel<SWStarship>(), KoinComponent {
 
-    override val useCase = GetStarshipByIdUseCase(
-        repository = SWStarshipRepository(
-            apiDatasource = SwapiRetrofitDatasource()
-        )
-    )
+    override val useCase: GetStarshipByIdUseCase by inject()
 
     init {
         viewModelScope.launch {

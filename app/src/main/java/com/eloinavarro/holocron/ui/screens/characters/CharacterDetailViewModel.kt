@@ -3,23 +3,19 @@ package com.eloinavarro.holocron.ui.screens.characters
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
-import com.eloinavarro.holocron.data.repositories.SWCharacterRepository
-import com.eloinavarro.holocron.data.retrofit.SwapiRetrofitDatasource
 import com.eloinavarro.holocron.domain.SWCharacter
 import com.eloinavarro.holocron.domain.usecase.GetCharacterByIdUseCase
 import com.eloinavarro.holocron.ui.common.detail.DetailViewModel
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import org.koin.core.component.KoinComponent
+import org.koin.core.component.inject
 
 class CharacterDetailViewModel(
     override val id: Int
-) : DetailViewModel<SWCharacter>() {
+) : DetailViewModel<SWCharacter>(), KoinComponent {
 
-    override val useCase = GetCharacterByIdUseCase(
-        repository = SWCharacterRepository(
-            apiDatasource = SwapiRetrofitDatasource()
-        )
-    )
+    override val useCase: GetCharacterByIdUseCase by inject()
 
     init {
         viewModelScope.launch {
