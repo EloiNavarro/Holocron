@@ -4,8 +4,7 @@ import com.eloinavarro.holocron.data.Datasource
 import com.eloinavarro.holocron.data.StorageDatasource
 import com.eloinavarro.holocron.domain.SWSpecie
 
-class SWSpecieRepository (private val datasource: Datasource, private val cache: StorageDatasource) :
-    Repository<SWSpecie>() {
+class SWSpecieRepository (private val datasource: Datasource, private val cache: StorageDatasource) {
 
     suspend fun getAllSpecies(page: Int): Result<List<SWSpecie>> {
         return datasource.getAllSpecies(page)

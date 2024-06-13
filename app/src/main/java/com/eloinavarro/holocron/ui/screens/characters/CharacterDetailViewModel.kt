@@ -1,5 +1,6 @@
 package com.eloinavarro.holocron.ui.screens.characters
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
@@ -21,6 +22,7 @@ class CharacterDetailViewModel(
         viewModelScope.launch {
             uiStateFlow.update { it.copy(loading = true) }
             uiStateFlow.update {
+                Log.d("DEBUG", "viewModelScope.getCharacterByIdUseCase: $id")
                 it.copy(
                     item = useCase(id),
                     loading = false

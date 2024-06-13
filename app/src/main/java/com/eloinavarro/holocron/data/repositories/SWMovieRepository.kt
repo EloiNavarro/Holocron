@@ -4,8 +4,7 @@ import com.eloinavarro.holocron.data.Datasource
 import com.eloinavarro.holocron.data.StorageDatasource
 import com.eloinavarro.holocron.domain.SWMovie
 
-class SWMovieRepository (private val datasource: Datasource, private val cache: StorageDatasource) :
-    Repository<SWMovie>() {
+class SWMovieRepository (private val datasource: Datasource, private val cache: StorageDatasource) {
 
     suspend fun getAllMovies(page: Int): Result<List<SWMovie>> {
         return datasource.getAllMovies(page)

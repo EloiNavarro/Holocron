@@ -86,7 +86,7 @@ private fun Header(swItem: SWItem) {
             contentDescription = "Main image of ${swItem.name}",
             modifier = Modifier
                 .fillMaxWidth()
-                .aspectRatio(1f)
+                .height(200.dp)
         )
         Spacer(modifier = Modifier.height(16.dp))
         Text(

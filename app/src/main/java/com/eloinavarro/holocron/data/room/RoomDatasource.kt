@@ -47,28 +47,28 @@ abstract class RoomDatasource : RoomDatabase(), StorageDatasource {
     abstract fun starshipsDao(): StarshipsDao
     abstract fun charactersDao(): CharactersDao
 
-    override suspend fun storeMovies(movies: List<SWMovie>) {
-        moviesDao().insertAll(movies.map { RoomMovie.fromDomain(it) })
+    override suspend fun storeMovies(data: List<SWMovie>) {
+        moviesDao().insertAll(data.map { RoomMovie.fromDomain(it) })
     }
 
-    override suspend fun storePlanets(planets: List<SWPlanet>) {
-        planetsDao().insertAll(planets.map { RoomPlanet.fromDomain(it) })
+    override suspend fun storePlanets(data: List<SWPlanet>) {
+        planetsDao().insertAll(data.map { RoomPlanet.fromDomain(it) })
     }
 
-    override suspend fun storeSpecies(species: List<SWSpecie>) {
-        speciesDao().insertAll(species.map { RoomSpecie.fromDomain(it) })
+    override suspend fun storeSpecies(data: List<SWSpecie>) {
+        speciesDao().insertAll(data.map { RoomSpecie.fromDomain(it) })
     }
 
-    override suspend fun storeVehicles(vehicles: List<SWVehicle>) {
-        vehiclesDao().insertAll(vehicles.map { RoomVehicle.fromDomain(it) })
+    override suspend fun storeVehicles(data: List<SWVehicle>) {
+        vehiclesDao().insertAll(data.map { RoomVehicle.fromDomain(it) })
     }
 
-    override suspend fun storeStarships(starships: List<SWStarship>) {
-        starshipsDao().insertAll(starships.map { RoomStarship.fromDomain(it) })
+    override suspend fun storeStarships(data: List<SWStarship>) {
+        starshipsDao().insertAll(data.map { RoomStarship.fromDomain(it) })
     }
 
-    override suspend fun storeCharacters(characters: List<SWCharacter>) {
-        charactersDao().insertAll(characters.map { RoomCharacter.fromDomain(it) })
+    override suspend fun storeCharacters(data: List<SWCharacter>) {
+        charactersDao().insertAll(data.map { RoomCharacter.fromDomain(it) })
     }
 
     override suspend fun getAllCharacters(page: Int): Result<List<SWCharacter>> {

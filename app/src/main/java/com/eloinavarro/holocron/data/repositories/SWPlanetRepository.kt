@@ -4,8 +4,7 @@ import com.eloinavarro.holocron.data.Datasource
 import com.eloinavarro.holocron.data.StorageDatasource
 import com.eloinavarro.holocron.domain.SWPlanet
 
-class SWPlanetRepository (private val datasource: Datasource, private val cache: StorageDatasource) :
-    Repository<SWPlanet>() {
+class SWPlanetRepository (private val datasource: Datasource, private val cache: StorageDatasource) {
 
     suspend fun getAllPlanets(page: Int): Result<List<SWPlanet>> {
         return datasource.getAllPlanets(page)

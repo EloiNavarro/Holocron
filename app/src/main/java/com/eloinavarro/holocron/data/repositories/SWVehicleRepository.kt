@@ -4,8 +4,7 @@ import com.eloinavarro.holocron.data.Datasource
 import com.eloinavarro.holocron.data.StorageDatasource
 import com.eloinavarro.holocron.domain.SWVehicle
 
-class SWVehicleRepository (private val datasource: Datasource, private val cache: StorageDatasource) :
-    Repository<SWVehicle>() {
+class SWVehicleRepository (private val datasource: Datasource, private val cache: StorageDatasource) {
 
     suspend fun getAllVehicles(page: Int): Result<List<SWVehicle>> {
         return datasource.getAllVehicles(page)

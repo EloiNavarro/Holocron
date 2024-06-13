@@ -8,10 +8,10 @@ import com.eloinavarro.holocron.domain.SWStarship
 import com.eloinavarro.holocron.domain.SWVehicle
 
 interface StorageDatasource : Datasource {
-    suspend fun storeMovies(movies: List<SWMovie>)
-    suspend fun storeSpecies(species: List<SWSpecie>)
-    suspend fun storePlanets(planets: List<SWPlanet>)
-    suspend fun storeVehicles(vehicles: List<SWVehicle>)
-    suspend fun storeStarships(starships: List<SWStarship>)
-    suspend fun storeCharacters(characters: List<SWCharacter>)
+    suspend fun storeMovies(data: List<SWMovie>)
+    suspend fun storeSpecies(data: List<SWSpecie>)
+    suspend fun storePlanets(data: List<SWPlanet>)
+    suspend fun storeVehicles(data: List<SWVehicle>)
+    suspend fun storeStarships(data: List<SWStarship>)
+    suspend fun storeCharacters(data: List<SWCharacter>)
 }

@@ -11,6 +11,7 @@ import com.eloinavarro.holocron.domain.SWVehicle
 import com.eloinavarro.holocron.domain.SwLink
 import com.eloinavarro.holocron.domain.SwLinkList
 import com.eloinavarro.holocron.domain.SwLinkType
+import android.util.Log
 
 class SwapiRetrofitDatasource : Datasource {
 
@@ -190,6 +191,7 @@ class SwapiRetrofitDatasource : Datasource {
     }
 
     private suspend fun getDetails(links: List<SwLinkList>) {
+        Log.d("DEBUG", "getDetails: $links")
         links.map { swLinkList ->
             swLinkList.links.map { swLink ->
                 swLink.name = detailsFetcher[swLinkList.type]!!.invoke(swLink)
